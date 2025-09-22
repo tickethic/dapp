@@ -4,8 +4,8 @@ import { useReadContract } from 'wagmi'
 import { contractAddresses } from '@/config'
 import { useWallet } from '@/hooks/useWallet'
 
-// Artist ABI
-const ARTIST_ABI = [
+// EventManager ABI - Vérifie le propriétaire du contrat EventManager
+const EVENT_MANAGER_ABI = [
   {
     "inputs": [],
     "name": "owner",
@@ -19,8 +19,8 @@ export function useIsContractOwner() {
   const { address } = useWallet()
   
   const { data: contractOwner, isLoading } = useReadContract({
-    address: contractAddresses.Artist,
-    abi: ARTIST_ABI,
+    address: contractAddresses.EventManager, // ← Vérifie le EventManager au lieu de l'Artist
+    abi: EVENT_MANAGER_ABI,
     functionName: 'owner',
   })
 
