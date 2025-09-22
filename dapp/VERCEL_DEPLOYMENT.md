@@ -33,7 +33,7 @@ Dans le dashboard Vercel → Project → Settings → Environment Variables, ajo
    - Aller sur [vercel.com/dashboard](https://vercel.com/dashboard)
    - Cliquer "New Project"
    - Importer `tickethic/tickethic`
-   - Sélectionner le dossier `new-app`
+   - Sélectionner le dossier `dapp`
 
 2. **Configurer les variables d'environnement** :
    - Dans "Environment Variables"
@@ -54,7 +54,7 @@ npm i -g vercel
 vercel login
 
 # Déployer
-cd new-app
+cd dapp
 vercel
 
 # Suivre les instructions
