@@ -1,0 +1,6 @@
+[profile.default]
+src = "evm/contracts"
+test = "evm/test"
+script = "evm/scripts"
+libs = ["evm/lib", "evm/node_modules", "evm/contracts"]
+out = "evm/artifacts"

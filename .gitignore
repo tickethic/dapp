@@ -116,7 +116,6 @@ typechain-types/
 
 # Test files
 test-results/
-coverage/
 
 # NFT metadata (keep structure but ignore content)
 nft/artists/*.json
@@ -124,3 +123,9 @@ nft/events/*.json
 
 # Keep .gitignore itself
 !.gitignore
+
+# Librairies
+evm/lib/forge-std/
+
+# Auto-generated files
+contract-addresses.json

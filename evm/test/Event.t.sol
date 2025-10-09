@@ -1,11 +1,11 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.28;
 
-import "forge-std/Test.sol";
-import "../contracts/Event.sol";
 import "../contracts/Artist.sol";
-import "../contracts/Ticket.sol";
+import "../contracts/Event.sol";
 import "../contracts/Organizator.sol";
+import "../contracts/Ticket.sol";
+import {Test} from "forge-std/Test.sol";
 
 contract EventTest is Test {
     Event private eventContract;
@@ -33,9 +33,12 @@ contract EventTest is Test {
         ticketContract = new Ticket(address(this));
 
         // Mint 3 artists
-        uint256 id1 = artistContract.mintArtist(artist1, "Artist1", "ipfs://artist1");
-        uint256 id2 = artistContract.mintArtist(artist2, "Artist2", "ipfs://artist2");
-        uint256 id3 = artistContract.mintArtist(artist3, "Artist3", "ipfs://artist3");
+        vm.prank(artist1);
+        uint256 id1 = artistContract.mintArtist("Artist1", "ipfs://artist1");
+        vm.prank(artist2);
+        uint256 id2 = artistContract.mintArtist("Artist2", "ipfs://artist2");
+        vm.prank(artist3);
+        uint256 id3 = artistContract.mintArtist("Artist3", "ipfs://artist3");
 
         artistIds = [id1, id2, id3];
         artistShares = [40, 30, 20]; // 90% to artists, 10% to organizer
@@ -73,7 +76,7 @@ contract EventTest is Test {
         uint256 orgBefore = organizer.balance;
 
         vm.prank(buyer);
-        eventContract.buyTicket{value: ticketPrice}();
+        eventContract.buyTicket{value: ticketPrice}(1);
 
         assertEq(ticketContract.balanceOf(buyer), 1, "Buyer should own 1 ticket");
 
@@ -90,7 +93,7 @@ contract EventTest is Test {
 
     function testCheckInOnceOnly() public {
         vm.prank(buyer);
-        eventContract.buyTicket{value: ticketPrice}();
+        eventContract.buyTicket{value: ticketPrice}(1);
 
         // Only organizer can check in
         vm.expectRevert("Not a verificator");
@@ -110,15 +113,15 @@ contract EventTest is Test {
 
     function testCannotExceedTotalTickets() public {
         vm.prank(buyer);
-        eventContract.buyTicket{value: ticketPrice}();
+        eventContract.buyTicket{value: ticketPrice}(1);
 
         vm.prank(buyer);
-        eventContract.buyTicket{value: ticketPrice}();
+        eventContract.buyTicket{value: ticketPrice}(1);
 
         // All tickets sold out
-        vm.expectRevert("Sold out");
+        vm.expectRevert("Not enough tickets available");
         vm.prank(buyer);
-        eventContract.buyTicket{value: ticketPrice}();
+        eventContract.buyTicket{value: ticketPrice}(1);
     }
 
     function testConstructorRevertsOnMismatchedArtistArrays() public {
@@ -207,14 +210,14 @@ contract EventTest is Test {
         vm.deal(buyer, 10 ether);
         vm.prank(buyer);
         vm.expectRevert("Event already happened");
-        pastEvent.buyTicket{value: ticketPrice}();
+        pastEvent.buyTicket{value: ticketPrice}(1);
     }
 
     function testBuyTicketRevertsIfIncorrectETHSent() public {
         vm.deal(buyer, 10 ether);
         vm.prank(buyer);
         vm.expectRevert("Incorrect ETH sent");
-        eventContract.buyTicket{value: ticketPrice - 1}();
+        eventContract.buyTicket{value: ticketPrice - 1}(1);
     }
 
     function testOnlyOrganizerCanAddRemoveVerificator() public {
@@ -239,7 +242,7 @@ contract EventTest is Test {
 
     function testCheckInRevertsIfNotVerificator() public {
         vm.prank(buyer);
-        eventContract.buyTicket{value: ticketPrice}();
+        eventContract.buyTicket{value: ticketPrice}(1);
         vm.prank(buyer);
         vm.expectRevert("Not a verificator");
         eventContract.checkIn(1);
@@ -247,7 +250,7 @@ contract EventTest is Test {
 
     function testCheckInRevertsIfAlreadyUsed() public {
         vm.prank(buyer);
-        eventContract.buyTicket{value: ticketPrice}();
+        eventContract.buyTicket{value: ticketPrice}(1);
         vm.prank(organizer);
         eventContract.checkIn(1);
         vm.prank(organizer);
@@ -263,7 +266,7 @@ contract EventTest is Test {
 
     function testIsValidReturnsCorrectStatus() public {
         vm.prank(buyer);
-        eventContract.buyTicket{value: ticketPrice}();
+        eventContract.buyTicket{value: ticketPrice}(1);
         assertTrue(eventContract.isValid(1), "Ticket should be valid before check-in");
         vm.prank(organizer);
         eventContract.checkIn(1);

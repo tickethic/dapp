@@ -1,0 +1,3 @@
+forge-std/=evm/lib/forge-std/src/
+interfaces/=evm/node_modules/forge-std/src/interfaces/
+mocks/=evm/node_modules/forge-std/src/mocks/
