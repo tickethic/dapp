@@ -17,7 +17,7 @@ contract Organizator is Ownable {
         }
     }
 
-    function addOrganizator(address organizator) external onlyOwner {
+    function addOrganizator(address organizator) external {
         isOrganizator[organizator] = true;
         emit OrganizatorAdded(organizator);
     }
