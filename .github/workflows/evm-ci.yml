@@ -23,7 +23,7 @@ jobs:
         uses: foundry-rs/foundry-toolchain@v1
 
       - name: Deploy Forge version
-        run: forge install foundry-rs/forge-std
+        run: git submodule update --init
 
       - name: Run Forge build
         run: forge build
