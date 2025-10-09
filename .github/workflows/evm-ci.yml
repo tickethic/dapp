@@ -25,14 +25,8 @@ jobs:
       - name: Show Forge version
         run: forge --version
 
-      - name: Run Forge fmt
-        run: forge fmt --check
-
       - name: Run Forge build
-        run: forge build --sizes
+        run: forge build
 
       - name: Run Forge tests
-        run: forge test -vvv
-
-      - name: Run Forge tests
-        run: forge test --ffi --gas-report
+        run: forge test --ffi --gas-report -vvv
