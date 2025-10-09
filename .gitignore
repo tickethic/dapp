@@ -125,7 +125,7 @@ nft/events/*.json
 !.gitignore
 
 # Librairies
-evm/lib/forge-std/
+lib/
 
 # Auto-generated files
 contract-addresses.json
