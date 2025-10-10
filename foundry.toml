@@ -2,5 +2,5 @@
 src = "evm/contracts"
 test = "evm/test"
 script = "evm/scripts"
-libs = ["lib", "evm/node_modules", "evm/contracts"]
+libs = ["lib", "evm/node_modules"]
 out = "evm/artifacts"
