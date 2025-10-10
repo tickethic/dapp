@@ -124,5 +124,8 @@ nft/events/*.json
 # Keep .gitignore itself
 !.gitignore
 
+# Librairies
+lib/
+
 # Auto-generated files
 contract-addresses.json
