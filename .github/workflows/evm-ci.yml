@@ -1,0 +1,36 @@
+name: EVM Forge Tests
+
+on:
+  push:
+    branches: [feature/*, bugfix/*, task/*]
+  pull_request:
+    branches: [main, develop]
+
+env:
+  FOUNDRY_PROFILE: ci
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+        with:
+          persist-credentials: false
+          submodules: recursive
+
+      - name: Install Foundry
+        uses: foundry-rs/foundry-toolchain@v1
+
+      - name: Deploy Forge version
+        run: git submodule update --init
+
+      - name: Install dependencies
+        working-directory: ./evm
+        run: npm ci
+
+      - name: Run Forge build
+        run: forge build
+
+      - name: Run Forge tests
+        run: forge test --ffi --gas-report
