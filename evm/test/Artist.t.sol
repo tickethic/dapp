@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.28;
 
-import "../contracts/Artist.sol";
-import "forge-std/Test.sol";
+import {Artist} from "../contracts/Artist.sol";
+import {Test} from "forge-std/Test.sol";
 
 contract ArtistTest is Test {
     function testSafeMintArtist() public {
@@ -10,8 +10,8 @@ contract ArtistTest is Test {
         Artist artistContract = new Artist();
         vm.prank(user);
         uint256 artistId = artistContract.mintArtist("Test Artist", "ipfs://testartist");
-        (string memory name, string memory metadataURI) = artistContract.getArtistInfo(artistId);
+        (string memory name, string memory metadataUri) = artistContract.getArtistInfo(artistId);
         assertEq(name, "Test Artist");
-        assertEq(metadataURI, "ipfs://testartist");
+        assertEq(metadataUri, "ipfs://testartist");
     }
 }
