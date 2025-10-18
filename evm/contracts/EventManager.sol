@@ -1,10 +1,10 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.28;
 
-import "./Artist.sol";
-import "./Ticket.sol";
-import "./Organizator.sol";
-import "./Event.sol";
+import {Artist} from "./Artist.sol";
+import {Ticket} from "./Ticket.sol";
+import {Organizator} from "./Organizator.sol";
+import {Event} from "./Event.sol";
 
 contract EventManager {
     Artist public artistContract;
@@ -34,7 +34,7 @@ contract EventManager {
      * @param _artistShares Revenue shares for each artist (in %)
      * @param _organizer Organizer address
      * @param _date Event date timestamp
-     * @param _metadataURI Event metadata URI
+     * @param _metadataUri Event metadata URI
      * @param _ticketPrice Ticket price in wei
      * @param _totalTickets Total number of tickets available
      * @return eventId ID of the newly created event
@@ -45,7 +45,7 @@ contract EventManager {
         uint256[] memory _artistShares,
         address _organizer,
         uint256 _date,
-        string memory _metadataURI,
+        string memory _metadataUri,
         uint256 _ticketPrice,
         uint256 _totalTickets
     ) external returns (uint256 eventId, address eventAddress) {
@@ -54,7 +54,7 @@ contract EventManager {
         require(_artistIds.length == _artistShares.length, "Artists and shares length mismatch");
         require(_organizer != address(0), "Invalid organizer address");
         require(_date > block.timestamp, "Event date must be in the future");
-        require(bytes(_metadataURI).length > 0, "Metadata URI required");
+        require(bytes(_metadataUri).length > 0, "Metadata URI required");
         require(_ticketPrice > 0, "Ticket price must be greater than 0");
         require(_totalTickets > 0, "Total tickets must be greater than 0");
         
@@ -87,7 +87,7 @@ contract EventManager {
             _artistShares,
             _organizer,
             _date,
-            _metadataURI,
+            _metadataUri,
             _ticketPrice,
             _totalTickets,
             address(newTicketContract),
