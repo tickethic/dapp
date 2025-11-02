@@ -1,15 +1,15 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.28;
 
-import "@openzeppelin/contracts/access/Ownable.sol";
-import "./Artist.sol";
-import "./Ticket.sol";
-import "./Organizator.sol";
+import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
+import {Artist} from "./Artist.sol";
+import {Ticket} from "./Ticket.sol";
+import {Organizator} from "./Organizator.sol";
 
 contract Event is Ownable {
     address public organizer;
     uint256 public date;
-    string public metadataURI;
+    string public metadataUri;
     uint256 public ticketPrice;
     uint256 public totalTickets;
     uint256 public soldTickets;
@@ -36,7 +36,7 @@ contract Event is Ownable {
         uint256[] memory _artistShares,
         address _organizer,
         uint256 _date,
-        string memory _metadataURI,
+        string memory _metadataUri,
         uint256 _ticketPrice,
         uint256 _totalTickets,
         address _ticketContract,
@@ -57,7 +57,7 @@ contract Event is Ownable {
         artistShares = _artistShares;
         organizer = _organizer;
         date = _date;
-        metadataURI = _metadataURI;
+        metadataUri = _metadataUri;
         ticketPrice = _ticketPrice;
         totalTickets = _totalTickets;
         organizerShare = 100 - totalShare;
@@ -74,7 +74,7 @@ contract Event is Ownable {
 
         // Mint multiple tickets
         for (uint256 i = 0; i < _quantity; i++) {
-            ticketContract.mintTicket(msg.sender, metadataURI);
+            ticketContract.mintTicket(msg.sender, metadataUri);
         }
         soldTickets += _quantity;
 

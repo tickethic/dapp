@@ -1,15 +1,15 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.28;
 
-import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
-import "@openzeppelin/contracts/access/Ownable.sol";
+import {ERC721, ERC721URIStorage} from "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
+import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
 
 contract Artist is ERC721URIStorage, Ownable {
     uint256 public nextArtistId = 1;
 
     struct ArtistInfo {
         string name;
-        string metadataURI;
+        string metadataUri;
     }
 
     mapping(uint256 => ArtistInfo) public artistInfos;
@@ -19,22 +19,22 @@ contract Artist is ERC721URIStorage, Ownable {
 
     function mintArtist(
         string memory artistName,
-        string memory artistMetadataURI
+        string memory artistMetadataUri
     ) external returns (uint256) {
         require(!hasMintedArtist[msg.sender], "Address has already minted an artist");
         
         uint256 artistId = nextArtistId++;
         _safeMint(msg.sender, artistId);
-        _setTokenURI(artistId, artistMetadataURI);
-        artistInfos[artistId] = ArtistInfo(artistName, artistMetadataURI);
+        _setTokenURI(artistId, artistMetadataUri);
+        artistInfos[artistId] = ArtistInfo(artistName, artistMetadataUri);
         hasMintedArtist[msg.sender] = true;
         
         return artistId;
     }
 
-    function getArtistInfo(uint256 artistId) external view returns (string memory name, string memory metadataURI) {
+    function getArtistInfo(uint256 artistId) external view returns (string memory name, string memory metadataUri) {
         ArtistInfo storage info = artistInfos[artistId];
-        return (info.name, info.metadataURI);
+        return (info.name, info.metadataUri);
     }
 
     /**
@@ -75,12 +75,12 @@ contract Artist is ERC721URIStorage, Ownable {
      * @param artistId The artist ID
      * @return name Artist name
      * @return owner Artist owner address
-     * @return metadataURI Artist metadata URI
+     * @return metadataUri Artist metadata URI
      */
-    function getArtistDetails(uint256 artistId) external view returns (string memory name, address owner, string memory metadataURI) {
+    function getArtistDetails(uint256 artistId) external view returns (string memory name, address owner, string memory metadataUri) {
         require(artistId > 0 && artistId < nextArtistId, "Artist does not exist");
         ArtistInfo storage info = artistInfos[artistId];
-        return (info.name, ownerOf(artistId), info.metadataURI);
+        return (info.name, ownerOf(artistId), info.metadataUri);
     }
 
     /**

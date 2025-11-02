@@ -1,10 +1,10 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.28;
 
-import "../contracts/Artist.sol";
-import "../contracts/Event.sol";
-import "../contracts/Organizator.sol";
-import "../contracts/Ticket.sol";
+import {Artist} from "../contracts/Artist.sol";
+import {Event} from "../contracts/Event.sol";
+import {Organizator} from "../contracts/Organizator.sol";
+import {Ticket} from "../contracts/Ticket.sol";
 import {Test} from "forge-std/Test.sol";
 
 contract EventTest is Test {
@@ -273,7 +273,7 @@ contract EventTest is Test {
         assertFalse(eventContract.isValid(1), "Ticket should be invalid after check-in");
     }
 
-    function testGetArtistIdsReturnsCorrectIds() public {
+    function testGetArtistIdsReturnsCorrectIds() public view {
         uint256[] memory ids = eventContract.getArtistIds();
         assertEq(ids.length, artistIds.length, "Artist IDs length should match");
         for (uint256 i = 0; i < ids.length; i++) {
