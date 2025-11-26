@@ -4,26 +4,12 @@ import { useState, useEffect } from 'react'
 import { useReadContract } from 'wagmi'
 import { contractAddresses } from '@/config'
 
-interface Ticket {
-  id: string
-  eventName: string
-  eventDate: string
-  eventLocation?: string
-  price: string
-  status: 'valid' | 'used' | 'expired'
-  eventAddress: string
-}
-
-// Ticket ABI for reading user tickets
+// Ticket ABI
 const TICKET_ABI = [
   {
-    "inputs": [
-      {"internalType": "address", "name": "owner", "type": "address"}
-    ],
+    "inputs": [{"internalType": "address", "name": "owner", "type": "address"}],
     "name": "balanceOf",
-    "outputs": [
-      {"internalType": "uint256", "name": "", "type": "uint256"}
-    ],
+    "outputs": [{"internalType": "uint256", "name": "", "type": "uint256"}],
     "stateMutability": "view",
     "type": "function"
   },
@@ -33,16 +19,12 @@ const TICKET_ABI = [
       {"internalType": "uint256", "name": "index", "type": "uint256"}
     ],
     "name": "tokenOfOwnerByIndex",
-    "outputs": [
-      {"internalType": "uint256", "name": "", "type": "uint256"}
-    ],
+    "outputs": [{"internalType": "uint256", "name": "", "type": "uint256"}],
     "stateMutability": "view",
     "type": "function"
   },
   {
-    "inputs": [
-      {"internalType": "uint256", "name": "tokenId", "type": "uint256"}
-    ],
+    "inputs": [{"internalType": "uint256", "name": "tokenId", "type": "uint256"}],
     "name": "getTicketInfo",
     "outputs": [
       {"internalType": "address", "name": "eventAddress", "type": "address"},
@@ -53,6 +35,34 @@ const TICKET_ABI = [
     "type": "function"
   }
 ] as const
+
+// Event ABI
+const EVENT_ABI = [
+  {
+    "inputs": [],
+    "name": "date",
+    "outputs": [{"internalType": "uint256", "name": "", "type": "uint256"}],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "metadataURI",
+    "outputs": [{"internalType": "string", "name": "", "type": "string"}],
+    "stateMutability": "view",
+    "type": "function"
+  }
+] as const
+
+export interface Ticket {
+  id: string
+  eventName: string
+  eventDate: string
+  eventLocation: string
+  price: string
+  status: 'valid' | 'used' | 'expired'
+  eventAddress: string
+}
 
 export function useUserTickets(userAddress: string) {
   const [tickets, setTickets] = useState<Ticket[]>([])
@@ -81,44 +91,77 @@ export function useUserTickets(userAddress: string) {
       setError(null)
       
       try {
-        const ticketPromises = []
+        const tickets: Ticket[] = []
         
-        // Get all ticket IDs owned by the user
         for (let i = 0; i < Number(balance); i++) {
-          ticketPromises.push(
-            fetch(`/api/user-ticket?address=${userAddress}&index=${i}`)
-              .then(res => res.json())
-          )
-        }
-
-        const ticketData = await Promise.all(ticketPromises)
-        
-        // Process ticket data
-        const processedTickets: Ticket[] = await Promise.all(
-          ticketData.map(async (ticketInfo) => {
+          try {
+            // Get ticket ID at index
+            const tokenId = await (window as any).viem.readContract({
+              address: contractAddresses.Ticket,
+              abi: TICKET_ABI,
+              functionName: 'tokenOfOwnerByIndex',
+              args: [userAddress, BigInt(i)]
+            })
+            
+            // Get ticket info
+            const ticketInfo = await (window as any).viem.readContract({
+              address: contractAddresses.Ticket,
+              abi: TICKET_ABI,
+              functionName: 'getTicketInfo',
+              args: [tokenId]
+            })
+            
             // Get event details
-            const eventResponse = await fetch(`/api/event-details?address=${ticketInfo.eventAddress}`)
-            const eventData = await eventResponse.json()
+            const eventDate = await (window as any).viem.readContract({
+              address: ticketInfo[0],
+              abi: EVENT_ABI,
+              functionName: 'date',
+              args: []
+            })
             
-            const eventDate = new Date(Number(eventData.date) * 1000)
-            const isPastEvent = eventDate < new Date()
+            const metadataURI = await (window as any).viem.readContract({
+              address: ticketInfo[0],
+              abi: EVENT_ABI,
+              functionName: 'metadataURI',
+              args: []
+            })
             
-            return {
-              id: ticketInfo.tokenId.toString(),
-              eventName: eventData.name || `Événement #${ticketInfo.tokenId}`,
-              eventDate: eventDate.toISOString(),
-              eventLocation: eventData.location,
-              price: `${(Number(ticketInfo.price) / 1e18).toFixed(4)} ETH`,
-              status: ticketInfo.isUsed ? 'used' : (isPastEvent ? 'expired' : 'valid'),
-              eventAddress: ticketInfo.eventAddress
+            // Fetch metadata from IPFS if available
+            let eventName = `Événement #${tokenId}`
+            let eventLocation = ''
+            
+            if (metadataURI) {
+              try {
+                const { fetchMetadata } = await import('@/lib/ipfs')
+                const meta = await fetchMetadata(metadataURI)
+                eventName = meta.name || eventName
+                eventLocation = meta.location || ''
+              } catch (error) {
+                console.log(`Error fetching metadata for token ${tokenId}:`, error)
+              }
             }
-          })
-        )
+            
+            const eventDateObj = new Date(Number(eventDate) * 1000)
+            const isPastEvent = eventDateObj < new Date()
+            
+            tickets.push({
+              id: tokenId.toString(),
+              eventName,
+              eventDate: eventDateObj.toISOString(),
+              eventLocation,
+              price: ticketInfo[1].toString(),
+              status: ticketInfo[2] ? 'used' : (isPastEvent ? 'expired' : 'valid'),
+              eventAddress: ticketInfo[0]
+            })
+          } catch (err) {
+            console.error(`Error fetching ticket ${i}:`, err)
+            // Continue with next ticket
+          }
+        }
         
-        setTickets(processedTickets)
+        setTickets(tickets)
       } catch (err) {
-        console.error('Error fetching tickets:', err)
-        setError(err instanceof Error ? err : new Error('Erreur lors du chargement des billets'))
+        setError(err as Error)
       } finally {
         setIsLoading(false)
       }
@@ -127,9 +170,9 @@ export function useUserTickets(userAddress: string) {
     fetchTickets()
   }, [userAddress, balance])
 
-  return {
-    tickets,
-    isLoading: isLoading || isLoadingBalance,
-    error
+  return { 
+    tickets, 
+    isLoading: isLoading || isLoadingBalance, 
+    error 
   }
 }
