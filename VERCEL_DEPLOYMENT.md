@@ -32,8 +32,7 @@ Dans le dashboard Vercel → Project → Settings → Environment Variables, ajo
 1. **Connecter le repository GitHub** :
    - Aller sur [vercel.com/dashboard](https://vercel.com/dashboard)
    - Cliquer "New Project"
-   - Importer `tickethic/tickethic`
-   - Sélectionner le dossier `dapp`
+   - Importer `tickethic/dapp`
 
 2. **Configurer les variables d'environnement** :
    - Dans "Environment Variables"
@@ -54,7 +53,6 @@ npm i -g vercel
 vercel login
 
 # Déployer
-cd dapp
 vercel
 
 # Suivre les instructions

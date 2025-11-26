@@ -23,22 +23,22 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
-        cache-dependency-path: 'dapp/package-lock.json'
+        cache-dependency-path: 'package-lock.json'
         
     - name: Install dependencies
-      working-directory: ./dapp
+      working-directory: ./
       run: npm ci
       
     - name: Run ESLint
-      working-directory: ./dapp
+      working-directory: ./
       run: npm run lint
       
     - name: Type check
-      working-directory: ./dapp
+      working-directory: ./
       run: npx tsc --noEmit
       
     - name: Build application
-      working-directory: ./dapp
+      working-directory: ./
       run: npm run build
       env:
         NEXT_PUBLIC_PROJECT_ID: ${{ secrets.NEXT_PUBLIC_PROJECT_ID }}
@@ -47,5 +47,5 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: build-files-${{ matrix.node-version }}
-        path: dapp/.next/
+        path: .next/
         retention-days: 1
