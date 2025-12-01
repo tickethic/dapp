@@ -1,6 +1,7 @@
 import { WagmiAdapter } from '@reown/appkit-adapter-wagmi'
 import { polygonAmoy } from '@reown/appkit/networks'
 import type { AppKitNetwork } from '@reown/appkit/networks'
+import contractsAddressesJson from '@tickethic/contracts/dist/contract-addresses.json'
 
 // Get projectId from https://cloud.reown.com
 export const projectId = process.env.NEXT_PUBLIC_PROJECT_ID || "" // this is a public projectId only to use on localhost
@@ -34,10 +35,10 @@ export const wagmiAdapter = new WagmiAdapter({
 export const config = wagmiAdapter.wagmiConfig
 
 // Contract addresses with fallbacks
-export const contractAddresses = {
-  Artist: process.env.NEXT_PUBLIC_CONTRACT_ARTIST || "",
-  Organizator: process.env.NEXT_PUBLIC_CONTRACT_ORGANIZATOR || "",
-  Ticket: process.env.NEXT_PUBLIC_CONTRACT_TICKET || "",
-  Event: process.env.NEXT_PUBLIC_CONTRACT_EVENT || "",
-  EventManager: process.env.NEXT_PUBLIC_CONTRACT_EVENT_MANAGER || ""
+export const contractAddresses =  {
+  Artist: process.env.NEXT_PUBLIC_CONTRACT_ARTIST ?? contractsAddressesJson?.contracts?.Artist ?? "",
+  Organizator: process.env.NEXT_PUBLIC_CONTRACT_ORGANIZATOR?? contractsAddressesJson?.contracts?.Organizator ?? "",
+  Ticket: process.env.NEXT_PUBLIC_CONTRACT_TICKET?? contractsAddressesJson?.contracts?.Ticket ?? "",
+  Event: process.env.NEXT_PUBLIC_CONTRACT_EVENT?? contractsAddressesJson?.contracts?.Event ?? "",
+  EventManager: process.env.NEXT_PUBLIC_CONTRACT_EVENT_MANAGER?? contractsAddressesJson?.contracts?.EventManager ?? ""
 } as const
