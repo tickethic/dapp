@@ -1,8 +1,0 @@
-{
-  "name": "tickethic-worker",
-  "main": "src/index.ts",
-  "compatibility_date": "2025-12-02",
-  "build": {
-    "command": "npm run build"
-  }
-}
