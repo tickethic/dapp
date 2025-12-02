@@ -12,7 +12,7 @@ jobs:
     
     strategy:
       matrix:
-        node-version: [18, 20]
+        node-version: [20]
         
     steps:
     - name: Checkout code
@@ -24,10 +24,14 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
         cache-dependency-path: 'package-lock.json'
-        
+        npm-version: '10.2.4'
+      
+    - name: Clear npm cache
+      run: npm cache clean --force
+      
     - name: Install dependencies
       working-directory: ./
-      run: npm ci
+      run: npm ci --no-audit --no-fund
       
     - name: Run ESLint
       working-directory: ./
