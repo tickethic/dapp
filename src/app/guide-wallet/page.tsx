@@ -27,12 +27,12 @@ export default function GuideWalletPage() {
             {/* What is a wallet */}
             <Card>
               <CardHeader>
-                <CardTitle>Qu'est-ce qu'un wallet Web3 ?</CardTitle>
+                <CardTitle>Qu&lsquo;est-ce qu&lsquo;un wallet Web3 ?</CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
                 <p className="text-gray-700">
                   Un wallet Web3 est un portefeuille numérique qui vous permet de stocker, envoyer et recevoir 
-                  des cryptomonnaies et des NFT. C'est l'équivalent d'un compte bancaire pour l'écosystème blockchain.
+                  des cryptomonnaies et des NFT. C&lsquo;est l&lsquo;équivalent d&lsquo;un compte bancaire pour l&lsquo;écosystème blockchain.
                 </p>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   <div className="text-center p-4 bg-blue-50 rounded-lg">
@@ -154,9 +154,9 @@ export default function GuideWalletPage() {
                       1
                     </div>
                     <div className="flex-1">
-                      <h4 className="font-semibold text-gray-800 mb-2">Télécharger l'extension</h4>
+                      <h4 className="font-semibold text-gray-800 mb-2">Télécharger l&lsquo;extension</h4>
                       <p className="text-gray-600 mb-3">
-                        Allez sur metamask.io et installez l'extension pour votre navigateur (Chrome, Firefox, Edge).
+                        Allez sur metamask.io et installez l&lsquo;extension pour votre navigateur (Chrome, Firefox, Edge).
                       </p>
                       <div className="bg-blue-50 p-3 rounded-lg">
                         <p className="text-sm text-blue-700">
@@ -173,7 +173,7 @@ export default function GuideWalletPage() {
                     <div className="flex-1">
                       <h4 className="font-semibold text-gray-800 mb-2">Créer un nouveau wallet</h4>
                       <p className="text-gray-600 mb-3">
-                        Cliquez sur "Créer un nouveau wallet" et suivez les instructions. Vous devrez créer un mot de passe fort.
+                        Cliquez sur &ldquo;Créer un nouveau wallet&ldquo; et suivez les instructions. Vous devrez créer un mot de passe fort.
                       </p>
                     </div>
                   </div>
@@ -189,7 +189,7 @@ export default function GuideWalletPage() {
                       </p>
                       <div className="bg-red-50 border border-red-200 p-3 rounded-lg">
                         <p className="text-sm text-red-700">
-                          <strong>⚠️ CRITIQUE :</strong> Sans ces mots, vous perdrez définitivement l'accès à votre wallet !
+                          <strong>⚠️ CRITIQUE :</strong> Sans ces mots, vous perdrez définitivement l&lsquo;accès à votre wallet !
                         </p>
                       </div>
                     </div>
@@ -233,11 +233,11 @@ export default function GuideWalletPage() {
                       </li>
                       <li className="flex items-start">
                         <CheckCircle className="w-4 h-4 text-green-500 mr-2 mt-0.5" />
-                        Activez l'authentification à deux facteurs
+                        Activez l&lsquo;authentification à deux facteurs
                       </li>
                       <li className="flex items-start">
                         <CheckCircle className="w-4 h-4 text-green-500 mr-2 mt-0.5" />
-                        Vérifiez toujours l'URL du site
+                        Vérifiez toujours l&lsquo;URL du site
                       </li>
                       <li className="flex items-start">
                         <CheckCircle className="w-4 h-4 text-green-500 mr-2 mt-0.5" />
@@ -263,7 +263,7 @@ export default function GuideWalletPage() {
                       </li>
                       <li className="flex items-start">
                         <AlertTriangle className="w-4 h-4 text-red-500 mr-2 mt-0.5" />
-                        N'utilisez pas de wallets non vérifiés
+                        N&lsquo;utilisez pas de wallets non vérifiés
                       </li>
                       <li className="flex items-start">
                         <AlertTriangle className="w-4 h-4 text-red-500 mr-2 mt-0.5" />
@@ -288,7 +288,7 @@ export default function GuideWalletPage() {
                       Vérifiez que :
                     </p>
                     <ul className="list-disc list-inside text-sm text-gray-600 ml-4">
-                      <li>L'extension MetaMask est installée et activée</li>
+                      <li>L&lsquo;extension MetaMask est installée et activée</li>
                       <li>Vous êtes sur le bon réseau (Ethereum Mainnet)</li>
                       <li>Votre navigateur est à jour</li>
                       <li>Les pop-ups ne sont pas bloqués</li>
@@ -304,15 +304,15 @@ export default function GuideWalletPage() {
                       <li>Frais de gas insuffisants</li>
                       <li>Solde ETH insuffisant</li>
                       <li>Réseau congestionné</li>
-                      <li>Transaction annulée par l'utilisateur</li>
+                      <li>Transaction annulée par l&lsquo;utilisateur</li>
                     </ul>
                   </div>
                   
                   <div>
-                    <h4 className="font-semibold text-gray-800 mb-2">J'ai perdu ma phrase de récupération</h4>
+                    <h4 className="font-semibold text-gray-800 mb-2">J&lsquo;ai perdu ma phrase de récupération</h4>
                     <p className="text-gray-600 text-sm">
-                      Malheureusement, sans la phrase de récupération, il est impossible de récupérer l'accès à votre wallet. 
-                      C'est pourquoi il est crucial de la sauvegarder en sécurité dès la création.
+                      Malheureusement, sans la phrase de récupération, il est impossible de récupérer l&lsquo;accès à votre wallet. 
+                      C&lsquo;est pourquoi il est crucial de la sauvegarder en sécurité dès la création.
                     </p>
                   </div>
                 </div>
@@ -330,7 +330,7 @@ export default function GuideWalletPage() {
                   href="/comment-acheter" 
                   className="bg-white text-blue-600 px-6 py-3 rounded-md font-semibold hover:bg-gray-100 transition inline-block"
                 >
-                  Guide d'achat
+                  Guide d&lsquo;achat
                 </a>
                 <a 
                   href="/events" 

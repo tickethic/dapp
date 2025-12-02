@@ -2,8 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { OrganizerEvent } from '@/hooks/useOrganizerEvents'
-import { useWallet } from '@/hooks/useWallet'
-import { Calendar, Clock, Users, Ticket, TrendingUp, Eye } from 'lucide-react'
+import { Calendar, Users, Ticket, TrendingUp, Eye } from 'lucide-react'
 
 interface OrganizerEventsListProps {
   organizerAddress: string
@@ -26,16 +25,24 @@ export function OrganizerEventsList({ organizerAddress, onStatsUpdate }: Organiz
     
     fetch(`/api/organizer-events?organizer=${encodeURIComponent(organizerAddress)}`)
       .then(response => response.json())
-      .then(data => {
+      .then((data: { events?: Array<{
+        id: string | number
+        date: string
+        ticketPrice: string
+        totalTickets: string
+        soldTickets: string
+        isPast: boolean
+        isSoldOut: boolean
+      }> }) => {
         if (data.events) {
           // Convert string values back to BigInt for consistency
-          const events = data.events.map((event: any) => ({
+          const events = data.events.map((event) => ({
             ...event,
             date: BigInt(event.date),
             ticketPrice: BigInt(event.ticketPrice),
             totalTickets: BigInt(event.totalTickets),
             soldTickets: BigInt(event.soldTickets)
-          }))
+          })) as OrganizerEvent[]
           setAllEvents(events)
         }
       })
@@ -87,7 +94,7 @@ export function OrganizerEventsList({ organizerAddress, onStatsUpdate }: Organiz
   }
 
   const getEventStatus = (event: OrganizerEvent) => {
-    if (event.isPast) return { label: 'Terminé', color: 'bg-gray-100 text-gray-600' }
+    if (event.isPast) return { label: 'Termine', color: 'bg-gray-100 text-gray-600' }
     if (event.isSoldOut) return { label: 'Complet', color: 'bg-red-100 text-red-600' }
     return { label: 'Actif', color: 'bg-green-100 text-green-600' }
   }
@@ -120,14 +127,14 @@ export function OrganizerEventsList({ organizerAddress, onStatsUpdate }: Organiz
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
         <div>
-          <h2 className="text-2xl font-bold text-gray-800">Mes événements</h2>
+          <h2 className="text-2xl font-bold text-gray-800">Mes evenements</h2>
           <p className="text-gray-600 mt-1">
-            {totalEvents} événement{totalEvents > 1 ? 's' : ''} au total
+            {totalEvents} evenement{totalEvents > 1 ? 's' : ''} au total
           </p>
         </div>
         <div className="flex items-center space-x-2 text-sm text-gray-500">
           <TrendingUp className="w-4 h-4" />
-          <span>Gestion des événements</span>
+          <span>Gestion des evenements</span>
         </div>
       </div>
 
@@ -151,7 +158,7 @@ export function OrganizerEventsList({ organizerAddress, onStatsUpdate }: Organiz
               : 'text-gray-600 hover:text-gray-800'
           }`}
         >
-          À venir ({futureEvents.length})
+          A venir ({futureEvents.length})
         </button>
         <button
           onClick={() => setActiveTab('past')}
@@ -161,7 +168,7 @@ export function OrganizerEventsList({ organizerAddress, onStatsUpdate }: Organiz
               : 'text-gray-600 hover:text-gray-800'
           }`}
         >
-          Passés ({pastEvents.length})
+          Passes ({pastEvents.length})
         </button>
       </div>
 
@@ -170,13 +177,13 @@ export function OrganizerEventsList({ organizerAddress, onStatsUpdate }: Organiz
         <div className="text-center py-12">
           <Calendar className="w-16 h-16 text-gray-300 mx-auto mb-4" />
           <h3 className="text-xl font-semibold text-gray-600 mb-2">
-            {activeTab === 'future' ? 'Aucun événement à venir' : 
-             activeTab === 'past' ? 'Aucun événement passé' : 
-             'Aucun événement créé'}
+            {activeTab === 'future' ? 'Aucun evenement a venir' : 
+             activeTab === 'past' ? 'Aucun evenement passe' : 
+             'Aucun evenement cree'}
           </h3>
           <p className="text-gray-500">
-            {activeTab === 'all' ? 'Créez votre premier événement pour commencer !' : 
-             'Vos événements apparaîtront ici.'}
+            {activeTab === 'all' ? 'Creez votre premier evenement pour commencer !' : 
+             'Vos evenements apparaitront ici.'}
           </p>
         </div>
       ) : (
@@ -193,7 +200,7 @@ export function OrganizerEventsList({ organizerAddress, onStatsUpdate }: Organiz
                   <div className="flex-1">
                     <div className="flex items-center space-x-3 mb-3">
                       <h3 className="text-lg font-semibold text-gray-800">
-                        Événement #{event.id}
+                        Evenement #{event.id}
                       </h3>
                       <span className={`px-2 py-1 text-xs rounded-full ${status.color}`}>
                         {status.label}
@@ -222,7 +229,7 @@ export function OrganizerEventsList({ organizerAddress, onStatsUpdate }: Organiz
                       <div 
                         className="bg-purple-600 h-2 rounded-full transition-all duration-300"
                         style={{ width: `${progressPercentage}%` }}
-                      ></div>
+                      />
                     </div>
 
                     <div className="flex items-center justify-between">
@@ -237,7 +244,7 @@ export function OrganizerEventsList({ organizerAddress, onStatsUpdate }: Organiz
                         {!event.isPast && (
                           <button className="flex items-center space-x-1 px-3 py-1 text-sm text-blue-600 hover:text-blue-800 transition">
                             <TrendingUp className="w-4 h-4" />
-                            <span>Gérer</span>
+                            <span>Gerer</span>
                           </button>
                         )}
                       </div>

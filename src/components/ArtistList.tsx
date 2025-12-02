@@ -151,7 +151,7 @@ export function ArtistList({ artistAddress, onStatsUpdate }: ArtistListProps) {
           </h3>
           
           <p className="text-gray-600 mb-6">
-            Vous n'avez pas encore de profil artiste. Créez votre premier profil dans l'onglet "S'inscrire".
+            Vous &lsquo;avez pas encore de profil artiste. Créez votre premier profil dans l&lsquo;onglet &ldquo;S&lsquo;inscrire&ldquo;.
           </p>
           
           <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
@@ -264,7 +264,7 @@ export function ArtistList({ artistAddress, onStatsUpdate }: ArtistListProps) {
           </li>
           <li className="flex items-center">
             <div className="w-2 h-2 bg-blue-600 rounded-full mr-3"></div>
-            Connectez-vous avec d'autres artistes et organisateurs
+            Connectez-vous avec &lsquo;autres artistes et organisateurs
           </li>
         </ul>
       </div>

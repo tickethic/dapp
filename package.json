@@ -10,8 +10,8 @@
     "vercel-build": "next build"
   },
   "dependencies": {
-    "@next/env": "^15.5.3",
-    "@radix-ui/react-slot": "^1.2.3",
+    "@next/env": "^15.5.6",
+    "@radix-ui/react-slot": "^1.2.4",
     "@reown/appkit": "^1.8.3",
     "@reown/appkit-adapter-wagmi": "^1.8.3",
     "@tanstack/react-query": "^5.87.1",

@@ -9,7 +9,7 @@ export function HowItWorks() {
     {
       number: 2,
       title: "Créer un Profil",
-      description: "Artistes : Créez votre NFT d'artiste. Organisateurs : Enregistrez-vous comme organisateur",
+      description: "Artistes : Créez votre NFT &lsquo;artiste. Organisateurs : Enregistrez-vous comme organisateur",
       color: "blue"
     },
     {

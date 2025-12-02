@@ -42,8 +42,8 @@ export default function PricingPage() {
                 </Badge>
               </div>
               <p className="text-sm text-gray-600 ml-6">
-                Les artistes reçoivent un pourcentage défini lors de la création de l'événement. 
-                Ce pourcentage est négocié entre l'organisateur et les artistes.
+                Les artistes reçoivent un pourcentage défini lors de la création de &lsquo;événement. 
+                Ce pourcentage est négocié entre &lsquo;organisateur et les artistes.
               </p>
 
               <div className="flex justify-between items-center p-3 bg-blue-50 rounded-lg">
@@ -56,8 +56,8 @@ export default function PricingPage() {
                 </Badge>
               </div>
               <p className="text-sm text-gray-600 ml-6">
-                L'organisateur reçoit le montant restant après distribution aux artistes. 
-                Il couvre les frais d'organisation, de location, etc.
+                L&lsquo;organisateur reçoit le montant restant après distribution aux artistes. 
+                Il couvre les frais &lsquo;organisation, de location, etc.
               </p>
             </CardContent>
           </Card>
@@ -105,7 +105,7 @@ export default function PricingPage() {
             </CardHeader>
             <CardContent>
               <p className="text-gray-600">
-                Tous les pourcentages sont définis lors de la création de l'événement 
+                Tous les pourcentages sont définis lors de la création de &lsquo;événement 
                 et sont visibles par tous les participants.
               </p>
             </CardContent>
@@ -117,7 +117,7 @@ export default function PricingPage() {
             </CardHeader>
             <CardContent>
               <p className="text-gray-600">
-                Les paiements sont automatiquement distribués dès l'achat d'un billet, 
+                Les paiements sont automatiquement distribués dès &lsquo;achat &lsquo;un billet, 
                 sans intermédiaire ni frais cachés.
               </p>
             </CardContent>
@@ -130,7 +130,7 @@ export default function PricingPage() {
             <CardContent>
               <p className="text-gray-600">
                 La répartition est gérée par des smart contracts sur la blockchain, 
-                garantissant l'exécution automatique et sécurisée.
+                garantissant &lsquo;exécution automatique et sécurisée.
               </p>
             </CardContent>
           </Card>
@@ -146,25 +146,25 @@ export default function PricingPage() {
           <CardContent>
             <div className="space-y-4">
               <div className="bg-gray-50 p-4 rounded-lg">
-                <h4 className="font-semibold mb-2">1. Création de l'événement</h4>
+                <h4 className="font-semibold mb-2">1. Création de &lsquo;événement</h4>
                 <p className="text-sm text-gray-600">
-                  L'organisateur définit les pourcentages de répartition pour chaque artiste. 
+                  L&lsquo;organisateur définit les pourcentages de répartition pour chaque artiste. 
                   La somme des pourcentages artistes ne peut pas dépasser 100%.
                 </p>
               </div>
 
               <div className="bg-gray-50 p-4 rounded-lg">
-                <h4 className="font-semibold mb-2">2. Achat d'un billet</h4>
+                <h4 className="font-semibold mb-2">2. Achat &lsquo;un billet</h4>
                 <p className="text-sm text-gray-600">
                   Quand un utilisateur achète un billet, le smart contract calcule automatiquement 
-                  les montants à envoyer à chaque artiste et à l'organisateur.
+                  les montants à envoyer à chaque artiste et à &lsquo;organisateur.
                 </p>
               </div>
 
               <div className="bg-gray-50 p-4 rounded-lg">
                 <h4 className="font-semibold mb-2">3. Distribution automatique</h4>
                 <p className="text-sm text-gray-600">
-                  Les ETH sont immédiatement transférés aux adresses des artistes et de l'organisateur 
+                  Les ETH sont immédiatement transférés aux adresses des artistes et de &lsquo;organisateur 
                   selon les pourcentages définis.
                 </p>
               </div>

@@ -5,7 +5,21 @@ import { useRouter } from 'next/navigation'
 import { useWallet } from '@/hooks/useWallet'
 import { useBuyTicket } from '@/hooks/useBuyTicket'
 import { useEventStatus } from '@/hooks/useEventStatus'
+import Link from 'next/link'
 import { CreditCard, CheckCircle, Shield, AlertCircle } from 'lucide-react'
+
+// Types pour useEventStatus
+interface EventStatus {
+  date?: bigint
+  ticketPrice?: bigint
+  totalTickets?: bigint
+  soldTickets?: bigint
+  organizer?: string
+  isLoading: boolean
+  hasError: boolean
+  isEventValid: boolean
+  validationError?: string
+}
 
 interface CheckoutFormProps {
   eventId: number
@@ -28,17 +42,18 @@ export function CheckoutForm({ eventId, eventAddress, ticketPrice, eventName }: 
     hasError: hasContractError,
     isEventValid, 
     validationError 
-  } = useEventStatus(eventAddress)
+  } = useEventStatus(eventAddress) as EventStatus
 
-  
-  
   const [agreedToTerms, setAgreedToTerms] = useState(false)
   const [quantity, setQuantity] = useState(1)
 
-  // Calculate total price
-  const totalPrice = contractTicketPrice ? contractTicketPrice * BigInt(quantity) : 0n
-  const totalPriceETH = contractTicketPrice ? (Number(contractTicketPrice) / 1e18) * quantity : 0
-  const remainingTickets = totalTickets && soldTickets ? Number(totalTickets) - Number(soldTickets) : 0
+  // Calculate total price - safe Number conversion
+  const safeContractPrice = contractTicketPrice ? Number(contractTicketPrice) : 0
+  const totalPriceETH = safeContractPrice / 1e18 * quantity
+  const totalPriceWei = BigInt(Math.floor(safeContractPrice * quantity * 1e18))
+  const safeTotalTickets = totalTickets ? Number(totalTickets) : 0
+  const safeSoldTickets = soldTickets ? Number(soldTickets) : 0
+  const remainingTickets = safeTotalTickets - safeSoldTickets
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -49,7 +64,7 @@ export function CheckoutForm({ eventId, eventAddress, ticketPrice, eventName }: 
     }
 
     if (!agreedToTerms) {
-      alert('Veuillez accepter les conditions générales')
+      alert('Veuillez accepter les conditions generales')
       return
     }
 
@@ -58,29 +73,10 @@ export function CheckoutForm({ eventId, eventAddress, ticketPrice, eventName }: 
       return
     }
 
-    // Check if user has enough ETH (add some buffer for gas)
-    const requiredEth = totalPriceETH
-    const gasBuffer = 0.01 // 0.01 ETH buffer for gas
-    const totalRequired = requiredEth + gasBuffer
-    
-    console.log('=== ETH BALANCE CHECK ===')
-    console.log('Required ETH for tickets:', requiredEth)
-    console.log('Quantity:', quantity)
-    console.log('Gas buffer:', gasBuffer)
-    console.log('Total required:', totalRequired)
-    console.log('========================')
-
     // Check if event is valid
     if (!isEventValid) {
       console.error('Event validation failed:', validationError)
-      alert(`Erreur de validation de l'événement : ${validationError}`)
-      return
-    }
-
-    // Check artist validation
-    if (firstArtistId > 0 && !isArtistValid) {
-      console.error('Artist validation failed for ID:', firstArtistId)
-      alert(`Erreur de validation de l'artiste #${firstArtistId}`)
+      alert(`Erreur de validation de leventement : ${validationError}`)
       return
     }
 
@@ -92,7 +88,7 @@ export function CheckoutForm({ eventId, eventAddress, ticketPrice, eventName }: 
     console.log('Ticket Price from props (ETH):', (Number(ticketPrice) / 1e18).toString())
     console.log('Contract Ticket Price (wei):', contractTicketPrice?.toString() || 'Loading...')
     console.log('Contract Ticket Price (ETH):', contractTicketPrice ? (Number(contractTicketPrice) / 1e18).toString() : 'Loading...')
-    console.log('Total Price (wei):', totalPrice.toString())
+    console.log('Total Price (wei):', totalPriceWei.toString())
     console.log('Total Price (ETH):', totalPriceETH.toString())
     console.log('User Address:', address)
     console.log('Event Valid:', isEventValid)
@@ -106,19 +102,13 @@ export function CheckoutForm({ eventId, eventAddress, ticketPrice, eventName }: 
     console.log('Has Contract Error:', hasContractError)
     console.log('========================')
 
-    // Use total price for the selected quantity
-    const finalTicketPrice = totalPrice
-    
-    console.log('Using total price (wei):', finalTicketPrice.toString())
-    console.log('Using total price (ETH):', totalPriceETH.toString())
-
     try {
       await buyTicket({
         eventAddress,
-        ticketPrice: finalTicketPrice,
+        ticketPrice: totalPriceWei,
         quantity: quantity,
         buyerInfo: {
-          walletAddress: address
+          walletAddress: address!
         }
       })
     } catch (error) {
@@ -133,9 +123,9 @@ export function CheckoutForm({ eventId, eventAddress, ticketPrice, eventName }: 
         <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
           <CheckCircle className="w-8 h-8 text-green-600" />
         </div>
-        <h2 className="text-2xl font-bold text-gray-800 mb-2">Billet acheté !</h2>
+        <h2 className="text-2xl font-bold text-gray-800 mb-2">Billet achete !</h2>
         <p className="text-gray-600 mb-6">
-          Votre billet pour <strong>{eventName}</strong> a été acheté avec succès.
+          Votre billet pour <strong>{eventName}</strong> a ete achete avec succes.
         </p>
         
         {ticketId && (
@@ -153,24 +143,24 @@ export function CheckoutForm({ eventId, eventAddress, ticketPrice, eventName }: 
               onClick={() => navigator.clipboard.writeText(hash)}
               className="mt-2 text-xs text-purple-600 hover:text-purple-800 underline"
             >
-              📋 Copier l'hash
+              📋 Copier hash
             </button>
           </div>
         )}
 
         <div className="space-y-3">
-          <button
-            onClick={() => router.push('/events')}
-            className="w-full bg-purple-600 text-white py-3 px-6 rounded-lg hover:bg-purple-700 transition font-semibold"
+          <Link
+            href="/events"
+            className="w-full bg-purple-600 text-white py-3 px-6 rounded-lg hover:bg-purple-700 transition font-semibold block text-center"
           >
-            Retour aux événements
-          </button>
-          <button
-            onClick={() => router.push('/profile')}
-            className="w-full bg-gray-600 text-white py-3 px-6 rounded-lg hover:bg-gray-700 transition font-semibold"
+            Retour aux evenements
+          </Link>
+          <Link
+            href="/profile"
+            className="w-full bg-gray-600 text-white py-3 px-6 rounded-lg hover:bg-gray-700 transition font-semibold block text-center"
           >
             Voir mes billets
-          </button>
+          </Link>
         </div>
       </div>
     )
@@ -178,7 +168,7 @@ export function CheckoutForm({ eventId, eventAddress, ticketPrice, eventName }: 
 
   return (
     <div>
-      <h2 className="text-xl font-bold text-gray-800 mb-6">Confirmer l'achat</h2>
+      <h2 className="text-xl font-bold text-gray-800 mb-6">Confirmer achat</h2>
       
       {/* Quantity Selection */}
       <div className="bg-gray-50 rounded-lg p-4 mb-6">
@@ -214,7 +204,7 @@ export function CheckoutForm({ eventId, eventAddress, ticketPrice, eventName }: 
         <div className="mt-3 text-sm text-gray-600">
           <div className="flex justify-between">
             <span>Prix unitaire :</span>
-            <span>{contractTicketPrice ? (Number(contractTicketPrice) / 1e18).toFixed(4) : '0.0000'} ETH</span>
+            <span>{safeContractPrice / 1e18 > 0 ? (safeContractPrice / 1e18).toFixed(4) : '0.0000'} ETH</span>
           </div>
           <div className="flex justify-between font-semibold text-lg">
             <span>Total :</span>
@@ -227,7 +217,7 @@ export function CheckoutForm({ eventId, eventAddress, ticketPrice, eventName }: 
       <div className="bg-gray-50 rounded-lg p-4 mb-6">
         <div className="flex items-center mb-2">
           <Shield className="w-5 h-5 text-purple-600 mr-2" />
-          <span className="font-medium text-gray-800">Wallet connecté</span>
+          <span className="font-medium text-gray-800">Wallet connecte</span>
         </div>
         <p className="text-sm text-gray-600 font-mono">
           {address?.slice(0, 6)}...{address?.slice(-4)}
@@ -239,7 +229,7 @@ export function CheckoutForm({ eventId, eventAddress, ticketPrice, eventName }: 
         <div className="bg-blue-50 rounded-lg p-4 mb-6">
           <div className="flex items-center">
             <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-blue-600 mr-2"></div>
-            <span className="text-blue-800 text-sm">Vérification de l'événement...</span>
+            <span className="text-blue-800 text-sm">Verification de leventement...</span>
           </div>
         </div>
       ) : hasContractError ? (
@@ -249,7 +239,7 @@ export function CheckoutForm({ eventId, eventAddress, ticketPrice, eventName }: 
             <span className="font-medium text-red-800">Erreur de lecture du contrat</span>
           </div>
           <p className="text-red-700 text-sm">
-            Impossible de lire les données de l'événement. Vérifiez que l'adresse du contrat est correcte.
+            Impossible de lire les donnees de leventement. Verifiez que ladresse du contrat est correcte.
           </p>
           <p className="text-red-600 text-xs mt-2 font-mono">
             Adresse: {eventAddress}
@@ -259,7 +249,7 @@ export function CheckoutForm({ eventId, eventAddress, ticketPrice, eventName }: 
         <div className="bg-red-50 rounded-lg p-4 mb-6">
           <div className="flex items-center mb-2">
             <AlertCircle className="w-5 h-5 text-red-600 mr-2" />
-            <span className="font-medium text-red-800">Événement non disponible</span>
+            <span className="font-medium text-red-800">Evenement non disponible</span>
           </div>
           <p className="text-red-700 text-sm">{validationError}</p>
         </div>
@@ -267,13 +257,13 @@ export function CheckoutForm({ eventId, eventAddress, ticketPrice, eventName }: 
         <div className="bg-green-50 rounded-lg p-4 mb-6">
           <div className="flex items-center mb-2">
             <CheckCircle className="w-5 h-5 text-green-600 mr-2" />
-            <span className="font-medium text-green-800">Événement disponible</span>
+            <span className="font-medium text-green-800">Evenement disponible</span>
           </div>
           <div className="text-sm text-green-700 space-y-1">
-            <p>Prix: {contractTicketPrice ? (Number(contractTicketPrice) / 1e18).toFixed(4) : '...'} ETH</p>
-            <p>Billets: {soldTickets?.toString() || '...'} / {totalTickets?.toString() || '...'}</p>
+            <p>Prix: {safeContractPrice / 1e18 > 0 ? (safeContractPrice / 1e18).toFixed(4) : '...'} ETH</p>
+            <p>Billets: {safeSoldTickets} / {safeTotalTickets}</p>
             <p>Date: {date ? new Date(Number(date) * 1000).toLocaleString('fr-FR') : '...'}</p>
-            <p>Organisateur: {organizer ? `${organizer.slice(0, 6)}...${organizer.slice(-4)}` : '...'}</p>
+            <p>Organisateur: {organizer ? `${(organizer as string).slice(0, 6)}...${(organizer as string).slice(-4)}` : '...'}</p>
           </div>
         </div>
       )}
@@ -289,24 +279,24 @@ export function CheckoutForm({ eventId, eventAddress, ticketPrice, eventName }: 
             className="mt-1 h-4 w-4 text-purple-600 focus:ring-purple-500 border-gray-300 rounded"
           />
           <label htmlFor="terms" className="text-sm text-gray-600">
-            J'accepte les{' '}
-            <a 
+            J accepte les{' '}
+            <Link 
               href="/conditions-generales" 
               target="_blank" 
               rel="noopener noreferrer"
               className="text-purple-600 hover:text-purple-800 underline"
             >
-              conditions générales
-            </a>{' '}
+              conditions generales
+            </Link>{' '}
             et la{' '}
-            <a 
+            <Link 
               href="/politique-confidentialite" 
               target="_blank" 
               rel="noopener noreferrer"
               className="text-purple-600 hover:text-purple-800 underline"
             >
-              politique de confidentialité
-            </a>
+              politique de confidentialite
+            </Link>
           </label>
         </div>
 
@@ -314,18 +304,18 @@ export function CheckoutForm({ eventId, eventAddress, ticketPrice, eventName }: 
         {error && (
           <div className="p-4 bg-red-50 border border-red-200 rounded-lg">
             <p className="text-red-800 text-sm font-medium mb-2">
-              Erreur lors de l'achat
+              Erreur lors de lachat
             </p>
             <p className="text-red-700 text-sm">
-              {error.message || 'Une erreur inattendue s\'est produite. Veuillez réessayer.'}
+              {error.message || 'Une erreur inattendue s est produite. Veuillez reessayer.'}
             </p>
             <div className="mt-2 text-xs text-red-600">
-              <p>Vérifiez que :</p>
+              <p>Verifiez que :</p>
               <ul className="list-disc list-inside mt-1 space-y-1">
-                <li>Votre wallet a suffisamment d'ETH</li>
-                <li>L'événement n'est pas complet</li>
-                <li>L'événement n'a pas encore eu lieu</li>
-                <li>Le montant envoyé correspond au prix du billet</li>
+                <li>Votre wallet a suffisamment d ETH</li>
+                <li>Levenement nest pas complet</li>
+                <li>Levenement na pas encore eu lieu</li>
+                <li>Le montant envoye correspond au prix du billet</li>
               </ul>
             </div>
           </div>

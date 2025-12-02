@@ -24,7 +24,7 @@ export default function ProfilePage() {
               onClick={() => window.location.href = '/'}
               className="bg-purple-600 text-white px-6 py-2 rounded-lg hover:bg-purple-700 transition"
             >
-              Retour à l'accueil
+              Retour à &lsquo;accueil
             </button>
           </div>
         </div>
@@ -104,7 +104,7 @@ export default function ProfilePage() {
               <div className="text-center py-12">
                 <Ticket className="w-16 h-16 text-gray-400 mx-auto mb-4" />
                 <h3 className="text-lg font-medium text-gray-800 mb-2">Aucun billet trouvé</h3>
-                <p className="text-gray-600 mb-6">Vous n'avez pas encore acheté de billets.</p>
+                <p className="text-gray-600 mb-6">Vous &lsquo;avez pas encore acheté de billets.</p>
                 <a
                   href="/events"
                   className="bg-purple-600 text-white px-6 py-2 rounded-lg hover:bg-purple-700 transition"

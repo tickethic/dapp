@@ -9,7 +9,7 @@ export function Features() {
             Une plateforme pour tous
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Découvrez comment Tickethic facilite l'organisation et la participation aux événements
+            Découvrez comment Tickethic facilite &lsquo;organisation et la participation aux événements
           </p>
         </div>
 

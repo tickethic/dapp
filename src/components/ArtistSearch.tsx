@@ -79,7 +79,7 @@ export function ArtistSearch({ onArtistSelect, selectedArtists, onArtistRemove }
         <div className="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-md shadow-lg max-h-60 overflow-y-auto">
           {searchResults.length === 0 ? (
             <div className="p-4 text-gray-500 text-center">
-              Aucun artiste trouvé
+              Aucun artiste trouve
             </div>
           ) : (
             <div className="py-1">
@@ -101,7 +101,7 @@ export function ArtistSearch({ onArtistSelect, selectedArtists, onArtistRemove }
                     </div>
                   </div>
                   {selectedArtists.some(a => a.id === artist.id) ? (
-                    <span className="text-xs text-green-600">Sélectionné</span>
+                    <span className="text-xs text-green-600">Selectionne</span>
                   ) : (
                     <Plus className="w-4 h-4 text-gray-400" />
                   )}
@@ -115,7 +115,7 @@ export function ArtistSearch({ onArtistSelect, selectedArtists, onArtistRemove }
       {/* Selected Artists */}
       {selectedArtists.length > 0 && (
         <div className="mt-4 space-y-2">
-          <h4 className="text-sm font-medium text-gray-700">Artistes sélectionnés :</h4>
+          <h4 className="text-sm font-medium text-gray-700">Artistes selectionnes :</h4>
           {selectedArtists.map((artist) => (
             <div key={artist.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
               <div className="flex items-center">

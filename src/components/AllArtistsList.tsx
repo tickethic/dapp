@@ -138,7 +138,7 @@ export function AllArtistsList() {
           </h3>
           
           <p className="text-gray-600 mb-6">
-            Aucun artiste n'a encore été créé sur la plateforme.
+            Aucun artiste &lsquo;a encore été créé sur la plateforme.
           </p>
         </div>
       </div>

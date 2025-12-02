@@ -41,25 +41,30 @@ export interface EventArtist {
 }
 
 export function useEventArtists(eventAddress: string) {
-  const { data: artistIds } = useReadContract({
+  const { data: artistIdsRaw, isLoading: artistIdsLoading } = useReadContract({
     address: eventAddress as `0x${string}`,
     abi: EVENT_ABI,
     functionName: 'getArtistIds',
   })
 
-  const { data: artistShares } = useReadContract({
+  const { data: artistSharesRaw, isLoading: artistSharesLoading } = useReadContract({
     address: eventAddress as `0x${string}`,
     abi: EVENT_ABI,
     functionName: 'getArtistShares',
   })
 
+  // Type guards pour vérifier que les données sont des arrays
+  const artistIds = Array.isArray(artistIdsRaw) ? artistIdsRaw : []
+  const artistShares = Array.isArray(artistSharesRaw) ? artistSharesRaw : []
+
   // Fetch artist details for each artist ID
-  const artistDetails = []
-  if (artistIds && artistShares) {
+  const artistDetails: EventArtist[] = []
+  
+  if (artistIds.length > 0 && artistShares.length > 0 && artistIds.length === artistShares.length) {
     console.log('=== EVENT ARTISTS DEBUG ===')
     console.log('Artist IDs:', artistIds)
     console.log('Artist Shares (raw):', artistShares)
-    console.log('Artist Shares (numbers):', artistShares.map(s => Number(s)))
+    console.log('Artist Shares (numbers):', artistShares.map((s: bigint) => Number(s)))
     
     for (let i = 0; i < artistIds.length; i++) {
       const artistId = Number(artistIds[i])
@@ -83,9 +88,13 @@ export function useEventArtists(eventAddress: string) {
     console.log('========================')
   }
 
+  const isLoading = artistIdsLoading || artistSharesLoading
+
   return {
     artists: artistDetails,
-    isLoading: !artistIds || !artistShares,
-    totalArtists: artistIds?.length || 0
+    isLoading,
+    totalArtists: artistIds.length,
+    artistIds,
+    artistShares
   }
 }

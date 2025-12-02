@@ -34,7 +34,7 @@ export default function OrganizersPage() {
                 </h1>
                 
                 <p className="text-lg text-gray-600 mb-8">
-                  Pour accéder à l'espace organisateurs, vous devez d'abord connecter votre wallet.
+                  Pour accéder à l&lsquo;espace organisateurs, vous devez d&lsquo;abord connecter votre wallet.
                 </p>
                 
                 <div className="bg-purple-50 border border-purple-200 rounded-lg p-6 mb-8">
@@ -58,7 +58,7 @@ export default function OrganizersPage() {
                 </div>
                 
                 <p className="text-sm text-gray-500">
-                  Utilisez le bouton "Connecter mon wallet" dans la barre de navigation pour commencer.
+                  Utilisez le bouton &ldquo;Connecter mon wallet&ldquo; dans la barre de navigation pour commencer.
                 </p>
               </div>
             </div>
@@ -125,7 +125,7 @@ export default function OrganizersPage() {
                   </h3>
                   <p className="text-yellow-700 text-sm">
                     Vous devez être enregistré comme organisateur pour créer des événements. 
-                    Utilisez le bouton "S'enregistrer comme organisateur" ci-dessous pour vous enregistrer directement.
+                    Utilisez le bouton &ldquo;S&lsquo;enregistrer comme organisateur&ldquo; ci-dessous pour vous enregistrer directement.
                   </p>
                 </div>
               </div>

@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { Ticket, Menu, User, LogOut, Shield, X } from 'lucide-react'
 import { useWallet } from '@/hooks/useWallet'
@@ -10,33 +11,36 @@ export function Navbar() {
   const { address, isConnected, connect, disconnect, formatAddress } = useWallet()
   const { isOwner } = useIsContractOwner()
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  
   return (
     <nav className="sticky top-0 z-50 bg-white shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16 items-center">
           <div className="flex items-center">
-            <a href="/" className="flex items-center">
+            <Link href="/" className="flex items-center">
               <Ticket className="text-purple-600 mr-2 w-6 h-6" />
               <span className="text-xl font-bold text-gray-800">Tickethic</span>
-            </a>
+            </Link>
           </div>
+          
           <div className="hidden md:flex items-center space-x-8">
-            <a href="/" className="text-gray-700 hover:text-purple-600 transition">Accueil</a>
-            <a href="/events" className="text-gray-700 hover:text-purple-600 transition">Événements</a>
+            <Link href="/" className="text-gray-700 hover:text-purple-600 transition">Accueil</Link>
+            <Link href="/events" className="text-gray-700 hover:text-purple-600 transition">Evenements</Link>
             {isConnected && (
-              <a href="/profile" className="text-gray-700 hover:text-purple-600 transition">
+              <Link href="/profile" className="text-gray-700 hover:text-purple-600 transition">
                 Mes Billets
-              </a>
+              </Link>
             )}
-            <a href="/organizers" className="text-gray-700 hover:text-purple-600 transition">Pour les organisateurs</a>
-            <a href="/artists" className="text-gray-700 hover:text-purple-600 transition">Pour les artistes</a>
+            <Link href="/organizers" className="text-gray-700 hover:text-purple-600 transition">Pour les organisateurs</Link>
+            <Link href="/artists" className="text-gray-700 hover:text-purple-600 transition">Pour les artistes</Link>
             {isOwner && (
-              <a href="/admin" className="text-gray-700 hover:text-purple-600 transition flex items-center">
+              <Link href="/admin" className="text-gray-700 hover:text-purple-600 transition flex items-center">
                 <Shield className="w-4 h-4 mr-1" />
                 Admin
-              </a>
+              </Link>
             )}
           </div>
+          
           <div className="flex items-center space-x-4">
             <Button 
               onClick={isConnected ? disconnect : connect}
@@ -49,7 +53,7 @@ export function Navbar() {
               {isConnected ? (
                 <>
                   <LogOut className="w-4 h-4 mr-2" />
-                  Déconnecter mon wallet
+                  Deconnecter mon wallet
                 </>
               ) : (
                 <>
@@ -58,6 +62,7 @@ export function Navbar() {
                 </>
               )}
             </Button>
+            
             <button 
               className="md:hidden text-gray-700 hover:text-purple-600 transition"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
@@ -75,52 +80,52 @@ export function Navbar() {
         {isMobileMenuOpen && (
           <div className="md:hidden border-t border-gray-200 bg-white">
             <div className="px-2 pt-2 pb-3 space-y-1">
-              <a 
+              <Link 
                 href="/" 
                 className="block px-3 py-2 text-gray-700 hover:text-purple-600 hover:bg-gray-50 rounded-md transition"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
                 Accueil
-              </a>
-              <a 
+              </Link>
+              <Link 
                 href="/events" 
                 className="block px-3 py-2 text-gray-700 hover:text-purple-600 hover:bg-gray-50 rounded-md transition"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
-                Événements
-              </a>
+                Evenements
+              </Link>
               {isConnected && (
-                <a 
+                <Link 
                   href="/profile" 
                   className="block px-3 py-2 text-gray-700 hover:text-purple-600 hover:bg-gray-50 rounded-md transition"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   Mes Billets
-                </a>
+                </Link>
               )}
-              <a 
+              <Link 
                 href="/organizers" 
                 className="block px-3 py-2 text-gray-700 hover:text-purple-600 hover:bg-gray-50 rounded-md transition"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
                 Pour les organisateurs
-              </a>
-              <a 
+              </Link>
+              <Link 
                 href="/artists" 
                 className="block px-3 py-2 text-gray-700 hover:text-purple-600 hover:bg-gray-50 rounded-md transition"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
                 Pour les artistes
-              </a>
+              </Link>
               {isOwner && (
-                <a 
+                <Link 
                   href="/admin" 
                   className="block px-3 py-2 text-gray-700 hover:text-purple-600 hover:bg-gray-50 rounded-md transition flex items-center"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   <Shield className="w-4 h-4 mr-2" />
                   Admin
-                </a>
+                </Link>
               )}
             </div>
           </div>

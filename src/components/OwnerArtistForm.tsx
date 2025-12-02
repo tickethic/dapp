@@ -1,13 +1,16 @@
 'use client'
 
 import { useState } from 'react'
+import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import { useOwnerArtist, OwnerArtistData } from '@/hooks/useOwnerArtist'
 import { useWallet } from '@/hooks/useWallet'
-import { Music, User, Link, CheckCircle, AlertCircle, Crown } from 'lucide-react'
+import { Music, User, Link as LinkIcon, CheckCircle, AlertCircle, Crown } from 'lucide-react'
 
 export function OwnerArtistForm() {
   const { addArtist, isLoading, error, success, hash } = useOwnerArtist()
   const { address } = useWallet()
+  const router = useRouter()
   
   const [formData, setFormData] = useState<OwnerArtistData>({
     artistName: '',
@@ -20,13 +23,12 @@ export function OwnerArtistForm() {
     const newErrors: Partial<OwnerArtistData> = {}
 
     if (!formData.artistName.trim()) {
-      newErrors.artistName = 'Le nom de l\'artiste est requis'
+      newErrors.artistName = 'Le nom de l artiste est requis'
     }
 
     if (!formData.metadataURI.trim()) {
-      newErrors.metadataURI = 'L\'URI des métadonnées est requise'
+      newErrors.metadataURI = 'L URI des metadonnees est requise'
     }
-
 
     setErrors(newErrors)
     return Object.keys(newErrors).length === 0
@@ -40,7 +42,7 @@ export function OwnerArtistForm() {
     }
 
     if (!address) {
-      setError('Adresse wallet non disponible')
+      setErrors({ artistName: 'Adresse wallet non disponible' })
       return
     }
     
@@ -71,11 +73,11 @@ export function OwnerArtistForm() {
           </div>
           
           <h2 className="text-2xl font-bold text-gray-800 mb-4">
-            Artiste ajouté avec succès !
+            Artiste ajoute avec succes !
           </h2>
           
           <p className="text-gray-600 mb-6">
-            L'artiste "{formData.artistName}" a été créé et le NFT a été transféré à votre adresse.
+            L artiste "{formData.artistName}" a ete cree et le NFT a ete transfere a votre adresse.
           </p>
           
           {hash && (
@@ -85,12 +87,20 @@ export function OwnerArtistForm() {
             </div>
           )}
           
-          <button
-            onClick={() => window.location.reload()}
-            className="bg-purple-600 text-white px-6 py-2 rounded-lg hover:bg-purple-700 transition"
-          >
-            Ajouter un autre artiste
-          </button>
+          <div className="space-y-3">
+            <Link
+              href="/admin"
+              className="w-full bg-purple-600 text-white py-3 px-6 rounded-lg hover:bg-purple-700 transition font-semibold block text-center"
+            >
+              Retour au dashboard
+            </Link>
+            <button
+              onClick={() => router.push('/admin')}
+              className="w-full bg-gray-600 text-white py-3 px-6 rounded-lg hover:bg-gray-700 transition font-semibold block text-center"
+            >
+              Ajouter un autre artiste
+            </button>
+          </div>
         </div>
       </div>
     )
@@ -105,17 +115,17 @@ export function OwnerArtistForm() {
           </div>
           <div>
             <h2 className="text-2xl font-bold text-gray-800">Ajouter un Artiste</h2>
-            <p className="text-gray-600">En tant que propriétaire du contrat, ajoutez un nouvel artiste</p>
+            <p className="text-gray-600">En tant que proprietaire du contrat, ajoutez un nouvel artiste</p>
           </div>
         </div>
 
-          <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-6">
+        <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-6">
           <h3 className="text-lg font-semibold text-yellow-800 mb-2">
             ⚠️ Fonction Owner uniquement
           </h3>
           <p className="text-yellow-700 text-sm">
-            Seul le propriétaire du contrat Artist peut ajouter de nouveaux artistes. 
-            Cette action créera un NFT unique qui sera transféré à votre adresse.
+            Seul le proprietaire du contrat Artist peut ajouter de nouveaux artistes. 
+            Cette action cree un NFT unique qui sera transfere a votre adresse.
           </p>
         </div>
 
@@ -130,7 +140,7 @@ export function OwnerArtistForm() {
           {/* Nom de l'artiste */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
-              Nom de l'artiste *
+              Nom de l artiste *
             </label>
             <div className="relative">
               <User className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
@@ -141,7 +151,7 @@ export function OwnerArtistForm() {
                 className={`w-full pl-10 pr-4 py-3 border rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent ${
                   errors.artistName ? 'border-red-300' : 'border-gray-300'
                 }`}
-                placeholder="Nom de l'artiste"
+                placeholder="Nom de l artiste"
               />
             </div>
             {errors.artistName && <p className="text-red-600 text-sm mt-1">{errors.artistName}</p>}
@@ -150,10 +160,10 @@ export function OwnerArtistForm() {
           {/* URI des métadonnées */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
-              URI des métadonnées *
+              URI des metadonnees *
             </label>
             <div className="relative">
-              <Link className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+              <LinkIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
               <input
                 type="url"
                 value={formData.metadataURI}
@@ -166,10 +176,9 @@ export function OwnerArtistForm() {
             </div>
             {errors.metadataURI && <p className="text-red-600 text-sm mt-1">{errors.metadataURI}</p>}
             <p className="text-gray-500 text-sm mt-1">
-              URI vers les métadonnées JSON de l'artiste (IPFS ou HTTPS)
+              URI vers les metadonnees JSON de l artiste (IPFS ou HTTPS)
             </p>
           </div>
-
 
           {/* Submit button */}
           <button
@@ -180,10 +189,10 @@ export function OwnerArtistForm() {
             {isLoading ? (
               <div className="flex items-center justify-center">
                 <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
-                Création en cours...
+                Creation en cours...
               </div>
             ) : (
-              'Créer l\'artiste'
+              'Creer l artiste'
             )}
           </button>
         </form>

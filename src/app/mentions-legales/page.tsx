@@ -107,7 +107,7 @@ export default function MentionsLegalesPage() {
                   </div>
                 </div>
                 <p className="text-gray-700">
-                  L'infrastructure de Tickethic est conçue pour être résiliente et décentralisée, 
+                  L&lsquo;infrastructure de Tickethic est conçue pour être résiliente et décentralisée, 
                   réduisant les risques de panne et de censure.
                 </p>
               </CardContent>
@@ -160,7 +160,7 @@ export default function MentionsLegalesPage() {
                       <strong> GNU General Public License v3.0</strong>. Cette licence garantit :
                     </p>
                     <ul className="list-disc list-inside space-y-1 text-gray-700 ml-4">
-                      <li>Liberté d'utilisation, d'étude, de modification et de distribution</li>
+                      <li>Liberté d&lsquo;utilisation, d&lsquo;étude, de modification et de distribution</li>
                       <li>Obligation de partager les modifications sous la même licence</li>
                       <li>Transparence totale du code source</li>
                     </ul>
@@ -177,8 +177,8 @@ export default function MentionsLegalesPage() {
                   <div>
                     <h4 className="font-semibold text-gray-800 mb-2">5.3 Marque et logo</h4>
                     <p className="text-gray-700">
-                      La marque "Tickethic" et son logo sont utilisés sous licence open-source. 
-                      L'utilisation commerciale est autorisée sous réserve du respect de la licence GPL.
+                      La marque &ldquo;Tickethic&ldquo; et son logo sont utilisés sous licence open-source. 
+                      L&lsquo;utilisation commerciale est autorisée sous réserve du respect de la licence GPL.
                     </p>
                   </div>
                 </div>
@@ -207,7 +207,7 @@ export default function MentionsLegalesPage() {
                   <div>
                     <h4 className="font-semibold text-gray-800 mb-2">6.2 Absence de garantie</h4>
                     <p className="text-gray-700">
-                      La plateforme est fournie "en l'état" sans garantie d'aucune sorte. 
+                      La plateforme est fournie &ldquo;en l&lsquo;état&ldquo; sans garantie d&lsquo;aucune sorte. 
                       Les utilisateurs utilisent Tickethic à leurs propres risques.
                     </p>
                   </div>
@@ -241,7 +241,7 @@ export default function MentionsLegalesPage() {
                   <div>
                     <h4 className="font-semibold text-gray-800 mb-2">7.3 Événements et responsabilité</h4>
                     <p className="text-gray-700">
-                      Les organisateurs d'événements sont responsables du respect des lois locales 
+                      Les organisateurs d&lsquo;événements sont responsables du respect des lois locales 
                       et de la sécurité de leurs événements.
                     </p>
                   </div>
@@ -257,7 +257,7 @@ export default function MentionsLegalesPage() {
                 <p className="text-gray-700">
                   Ces mentions légales peuvent être modifiées à tout moment. Les modifications 
                   importantes seront communiquées via la plateforme ou les canaux officiels. 
-                  L'utilisation continue de Tickethic après modification vaut acceptation des nouvelles mentions.
+                  L&lsquo;utilisation continue de Tickethic après modification vaut acceptation des nouvelles mentions.
                 </p>
               </CardContent>
             </Card>
@@ -279,7 +279,7 @@ export default function MentionsLegalesPage() {
                 Philosophie Tickethic
               </h3>
               <p className="text-green-700 mb-4">
-                Tickethic incarne les valeurs de l'open-source et de la décentralisation :
+                Tickethic incarne les valeurs de l&lsquo;open-source et de la décentralisation :
               </p>
               <ul className="text-green-700 space-y-2">
                 <li>• <strong>Transparence :</strong> Code source ouvert et auditable</li>

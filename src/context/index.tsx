@@ -43,7 +43,7 @@ export const modal = createAppKit({
     '--w3m-icon-border-radius': '6px',
     '--w3m-font-family': '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
     '--w3m-font-size-master': '14px',
-    '--w3m-z-index': '1000'
+    '--w3m-z-index': 1000
   }
 })
 

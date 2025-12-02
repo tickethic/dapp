@@ -45,7 +45,7 @@ export function ArtistRegistration() {
               <User className="w-6 h-6 text-blue-600" />
             </div>
             <h4 className="font-semibold text-gray-800 mb-2">Communauté</h4>
-            <p className="text-sm text-gray-600">Connectez-vous avec d'autres artistes et organisateurs d'événements</p>
+            <p className="text-sm text-gray-600">Connectez-vous avec &lsquo;autres artistes et organisateurs &lsquo;événements</p>
           </div>
         </div>
       </div>

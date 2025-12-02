@@ -34,7 +34,7 @@ export default function CommentAcheterPage() {
               </CardHeader>
               <CardContent className="space-y-4">
                 <p className="text-gray-700">
-                  Avant d'acheter des billets sur Tickethic, vous devez avoir :
+                  Avant d&lsquo;acheter des billets sur Tickethic, vous devez avoir :
                 </p>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="flex items-start space-x-3">
@@ -72,7 +72,7 @@ export default function CommentAcheterPage() {
             {/* Step by step */}
             <Card>
               <CardHeader>
-                <CardTitle>Étapes d'achat</CardTitle>
+                <CardTitle>Étapes d&lsquo;achat</CardTitle>
               </CardHeader>
               <CardContent className="space-y-6">
                 <div className="space-y-6">
@@ -83,7 +83,7 @@ export default function CommentAcheterPage() {
                     <div className="flex-1">
                       <h4 className="font-semibold text-gray-800 mb-2">Connecter votre wallet</h4>
                       <p className="text-gray-600 mb-3">
-                        Cliquez sur "Connecter mon wallet" dans la barre de navigation et sélectionnez votre wallet préféré.
+                        Cliquez sur &ldquo;Connecter mon wallet&ldquo; dans la barre de navigation et sélectionnez votre wallet préféré.
                       </p>
                       <div className="bg-gray-50 p-3 rounded-lg">
                         <p className="text-sm text-gray-600">
@@ -119,7 +119,7 @@ export default function CommentAcheterPage() {
                     <div className="flex-1">
                       <h4 className="font-semibold text-gray-800 mb-2">Sélectionner un billet</h4>
                       <p className="text-gray-600 mb-3">
-                        Cliquez sur l'événement de votre choix et sélectionnez le type de billet (Standard, VIP, etc.).
+                        Cliquez sur l&lsquo;événement de votre choix et sélectionnez le type de billet (Standard, VIP, etc.).
                       </p>
                       <div className="bg-blue-50 p-3 rounded-lg">
                         <p className="text-sm text-blue-700">
@@ -134,7 +134,7 @@ export default function CommentAcheterPage() {
                       4
                     </div>
                     <div className="flex-1">
-                      <h4 className="font-semibold text-gray-800 mb-2">Confirmer l'achat</h4>
+                      <h4 className="font-semibold text-gray-800 mb-2">Confirmer l&lsquo;achat</h4>
                       <p className="text-gray-600 mb-3">
                         Vérifiez les détails de votre achat et confirmez la transaction dans votre wallet.
                       </p>
@@ -223,7 +223,7 @@ export default function CommentAcheterPage() {
                     <ul className="space-y-2 text-sm text-gray-600">
                       <li className="flex items-start">
                         <CheckCircle className="w-4 h-4 text-green-500 mr-2 mt-0.5" />
-                        Vérifiez toujours l'adresse de l'événement
+                        Vérifiez toujours l&lsquo;adresse de l&lsquo;événement
                       </li>
                       <li className="flex items-start">
                         <CheckCircle className="w-4 h-4 text-green-500 mr-2 mt-0.5" />
@@ -257,7 +257,7 @@ export default function CommentAcheterPage() {
                       </li>
                       <li className="flex items-start">
                         <AlertCircle className="w-4 h-4 text-red-500 mr-2 mt-0.5" />
-                        N'utilisez pas de wallets non vérifiés
+                        N&lsquo;utilisez pas de wallets non vérifiés
                       </li>
                     </ul>
                   </div>
@@ -287,16 +287,16 @@ export default function CommentAcheterPage() {
                   </div>
                   
                   <div>
-                    <h4 className="font-semibold text-gray-800 mb-2">Que se passe-t-il si l'événement est annulé ?</h4>
+                    <h4 className="font-semibold text-gray-800 mb-2">Que se passe-t-il si l&lsquo;événement est annulé ?</h4>
                     <p className="text-gray-600 text-sm">
-                      L'organisateur peut proposer un remboursement ou un report. Contactez-le directement.
+                      L&lsquo;organisateur peut proposer un remboursement ou un report. Contactez-le directement.
                     </p>
                   </div>
                   
                   <div>
                     <h4 className="font-semibold text-gray-800 mb-2">Puis-je revendre mon billet ?</h4>
                     <p className="text-gray-600 text-sm">
-                      Oui, vous pouvez transférer votre NFT à quelqu'un d'autre via votre wallet.
+                      Oui, vous pouvez transférer votre NFT à quelqu&lsquo;un d&lsquo;autre via votre wallet.
                     </p>
                   </div>
                 </div>

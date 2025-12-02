@@ -1,15 +1,18 @@
 'use client'
 
 import { useState } from 'react'
+import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import { useWallet } from '@/hooks/useWallet'
 import { useArtistRegistration, ArtistRegistrationData } from '@/hooks/useArtistRegistration'
-import { useUserArtist } from '@/hooks/useUserArtist'
-import { Music, User, CheckCircle, AlertCircle, Link } from 'lucide-react'
+import { useUserArtist, UserArtistInfo } from '@/hooks/useUserArtist'
+import { Music, User, CheckCircle, AlertCircle, Link as LinkIcon } from 'lucide-react'
 
 export function CreateArtistForm() {
   const { address } = useWallet()
   const { mintArtist, isLoading, error, success, hash } = useArtistRegistration()
-  const { hasArtist, artistId, isLoading: isCheckingArtist } = useUserArtist()
+  const { userArtist, hasMinted, isLoading: isCheckingArtist } = useUserArtist()
+  const router = useRouter()
   
   const [formData, setFormData] = useState<ArtistRegistrationData>({
     name: '',
@@ -32,7 +35,7 @@ export function CreateArtistForm() {
     const newErrors: Partial<ArtistRegistrationData> = {}
 
     if (!formData.name.trim()) {
-      newErrors.name = 'Le nom de l\'artiste est requis'
+      newErrors.name = 'Le nom de l artiste est requis'
     }
 
     setErrors(newErrors)
@@ -75,14 +78,14 @@ export function CreateArtistForm() {
       <div className="max-w-2xl mx-auto">
         <div className="bg-white rounded-lg shadow-md p-8 text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600 mx-auto mb-4"></div>
-          <p className="text-gray-600">Vérification de votre profil artiste...</p>
+          <p className="text-gray-600">Verification de votre profil artiste...</p>
         </div>
       </div>
     )
   }
 
   // Show message if user already has an artist
-  if (hasArtist) {
+  if (hasMinted || userArtist) {
     return (
       <div className="max-w-2xl mx-auto">
         <div className="bg-white rounded-lg shadow-md p-8 text-center">
@@ -91,25 +94,25 @@ export function CreateArtistForm() {
           </div>
           
           <h2 className="text-2xl font-bold text-gray-800 mb-4">
-            Vous avez déjà un profil artiste !
+            Vous avez deja un profil artiste !
           </h2>
           
           <p className="text-gray-600 mb-6">
-            Votre profil artiste #{artistId} est déjà enregistré sur la blockchain. Chaque wallet ne peut créer qu'un seul profil artiste.
+            Votre profil artiste #{userArtist?.id || 'ID'} est deja enregistre sur la blockchain. Chaque wallet ne peut creer qu un seul profil artiste.
           </p>
           
           <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
             <p className="text-blue-800 text-sm">
-              <strong>Limite :</strong> Un seul profil artiste par wallet. Si vous voulez créer un nouveau profil, vous devez utiliser un autre wallet.
+              <strong>Limite :</strong> Un seul profil artiste par wallet. Si vous voulez creer un nouveau profil, vous devez utiliser un autre wallet.
             </p>
           </div>
           
-          <button
-            onClick={() => window.location.href = '/profile'}
-            className="bg-purple-600 text-white px-6 py-2 rounded-lg hover:bg-purple-700 transition"
+          <Link
+            href="/profile"
+            className="bg-purple-600 text-white px-6 py-2 rounded-lg hover:bg-purple-700 transition inline-block"
           >
             Voir mon profil
-          </button>
+          </Link>
         </div>
       </div>
     )
@@ -124,11 +127,11 @@ export function CreateArtistForm() {
           </div>
           
           <h2 className="text-2xl font-bold text-gray-800 mb-4">
-            Artiste créé avec succès !
+            Artiste cree avec succes !
           </h2>
           
           <p className="text-gray-600 mb-6">
-            Votre profil artiste a été créé avec succès sur la blockchain. Vous pouvez maintenant participer aux événements.
+            Votre profil artiste a ete cree avec succes sur la blockchain. Vous pouvez maintenant participer aux evenements.
           </p>
           
           {hash && (
@@ -139,7 +142,7 @@ export function CreateArtistForm() {
           )}
           
           <button
-            onClick={() => window.location.reload()}
+            onClick={() => router.push('/profile')}
             className="bg-purple-600 text-white px-6 py-2 rounded-lg hover:bg-purple-700 transition"
           >
             Voir mon profil
@@ -157,22 +160,22 @@ export function CreateArtistForm() {
             <Music className="w-6 h-6 text-purple-600" />
           </div>
           <div>
-            <h2 className="text-2xl font-bold text-gray-800">Créer un Profil Artiste</h2>
-            <p className="text-gray-600">Créez votre profil artiste NFT sur la blockchain</p>
+            <h2 className="text-2xl font-bold text-gray-800">Creer un Profil Artiste</h2>
+            <p className="text-gray-600">Creez votre profil artiste NFT sur la blockchain</p>
           </div>
         </div>
 
         <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
           <h3 className="text-lg font-semibold text-blue-800 mb-2">
-            Comment ça marche ?
+            Comment ca marche ?
           </h3>
           <p className="text-blue-700 text-sm mb-2">
-            Créez directement votre profil artiste NFT sur la blockchain. Chaque wallet peut créer un seul profil artiste.
+            Creez directement votre profil artiste NFT sur la blockchain. Chaque wallet peut creer un seul profil artiste.
           </p>
           <ul className="text-blue-700 text-sm space-y-1">
             <li>• Remplissez le formulaire ci-dessous</li>
-            <li>• Votre profil NFT sera créé instantanément</li>
-            <li>• Vous pourrez participer aux événements</li>
+            <li>• Votre profil NFT sera cree instantanement</li>
+            <li>• Vous pourrez participer aux evenements</li>
             <li>• Limite : 1 profil artiste par wallet</li>
           </ul>
         </div>
@@ -188,7 +191,7 @@ export function CreateArtistForm() {
           {/* Nom de l'artiste */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
-              Nom de l'artiste *
+              Nom de l artiste *
             </label>
             <div className="relative">
               <User className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
@@ -199,7 +202,7 @@ export function CreateArtistForm() {
                 className={`w-full pl-10 pr-4 py-3 border rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent ${
                   errors.name ? 'border-red-300' : 'border-gray-300'
                 }`}
-                placeholder="Votre nom d'artiste"
+                placeholder="Votre nom d artiste"
               />
             </div>
             {errors.name && <p className="text-red-600 text-sm mt-1">{errors.name}</p>}
@@ -211,7 +214,7 @@ export function CreateArtistForm() {
               URL IPFS (optionnel)
             </label>
             <div className="relative">
-              <Link className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+              <LinkIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
               <input
                 type="url"
                 value={ipfsUrl}
@@ -221,7 +224,7 @@ export function CreateArtistForm() {
               />
             </div>
             <p className="text-gray-500 text-sm mt-1">
-              Laissez vide pour générer automatiquement une URL IPFS
+              Laissez vide pour generer automatiquement une URL IPFS
             </p>
           </div>
 
@@ -234,10 +237,10 @@ export function CreateArtistForm() {
             {isLoading ? (
               <div className="flex items-center justify-center">
                 <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
-                Création en cours...
+                Creation en cours...
               </div>
             ) : (
-              'Créer mon profil artiste'
+              'Creer mon profil artiste'
             )}
           </button>
         </form>

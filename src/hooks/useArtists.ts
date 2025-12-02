@@ -52,7 +52,7 @@ export function useTotalArtists() {
 }
 
 export function useArtistInfo(artistId: number) {
-  const { data: artistInfo, isLoading } = useReadContract({
+  const { data: artistInfoRaw, isLoading: artistInfoLoading } = useReadContract({
     address: contractAddresses.Artist,
     abi: ARTIST_ABI,
     functionName: 'getArtistInfo',
@@ -62,7 +62,7 @@ export function useArtistInfo(artistId: number) {
     }
   })
 
-  const { data: owner } = useReadContract({
+  const { data: owner, isLoading: ownerLoading } = useReadContract({
     address: contractAddresses.Artist,
     abi: ARTIST_ABI,
     functionName: 'ownerOf',
@@ -72,13 +72,20 @@ export function useArtistInfo(artistId: number) {
     }
   })
 
+  // Type guard pour s'assurer que artistInfoRaw est un tuple [string, string]
+  const artistInfo = Array.isArray(artistInfoRaw) && artistInfoRaw.length === 2 
+    ? {
+        id: artistId,
+        name: artistInfoRaw[0] as string,
+        metadataURI: artistInfoRaw[1] as string,
+        owner: owner as string || ''
+      }
+    : null
+
+  const isLoading = artistInfoLoading || ownerLoading
+
   return {
-    artistInfo: artistInfo ? {
-      id: artistId,
-      name: artistInfo[0],
-      metadataURI: artistInfo[1],
-      owner: owner || ''
-    } : null,
+    artistInfo,
     isLoading
   }
 }
