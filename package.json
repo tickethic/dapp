@@ -35,7 +35,7 @@
     "eslint-config-next": "15.5.2",
     "tailwindcss": "^4",
     "typescript": "^5",
-    "pino": "^some-version",
-    "pino-pretty": "^some-version"
+    "pino": "^10.1.0",
+    "pino-pretty": "^13.1.3"
   }
 }
