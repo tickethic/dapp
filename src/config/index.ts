@@ -14,7 +14,7 @@ export const networks = [polygonAmoy] as [AppKitNetwork, ...AppKitNetwork[]]
 export const appKitConfig = {
   projectId,
   networks,
-  // Configuration pour éviter l'erreur "Invalid App Configuration"
+  // Configuration pour éviter &lsquo;erreur "Invalid App Configuration"
   metadata: {
     name: 'Tickethic',
     description: 'Tickethic - Plateforme de tickets NFT',

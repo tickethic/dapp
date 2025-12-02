@@ -70,7 +70,7 @@ export function AdminArtistsList({ artists, isLoading, error }: AdminArtistsList
               <Music className="w-8 h-8 text-gray-400" />
             </div>
             <h3 className="text-lg font-semibold text-gray-700 mb-2">Aucun artiste</h3>
-            <p className="text-gray-500">Aucun artiste n'a encore été créé.</p>
+            <p className="text-gray-500">Aucun artiste &lsquo;a encore été créé.</p>
           </div>
         ) : (
           <div className="divide-y divide-gray-200">
@@ -101,7 +101,7 @@ export function AdminArtistsList({ artists, isLoading, error }: AdminArtistsList
                           <button
                             onClick={() => copyToClipboard(artist.owner, artist.id)}
                             className="ml-2 p-1 hover:bg-gray-200 rounded"
-                            title="Copier l'adresse"
+                            title="Copier &lsquo;adresse"
                           >
                             {copiedId === artist.id ? (
                               <CheckCircle className="w-4 h-4 text-green-600" />
@@ -124,7 +124,7 @@ export function AdminArtistsList({ artists, isLoading, error }: AdminArtistsList
                         <button
                           onClick={() => copyToClipboard(artist.metadataURI, artist.id + 1000)}
                           className="p-1 hover:bg-gray-200 rounded"
-                          title="Copier l'URL IPFS"
+                          title="Copier &lsquo;URL IPFS"
                         >
                           {copiedId === artist.id + 1000 ? (
                             <CheckCircle className="w-4 h-4 text-green-600" />

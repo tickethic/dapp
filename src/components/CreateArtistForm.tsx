@@ -95,7 +95,7 @@ export function CreateArtistForm() {
           </h2>
           
           <p className="text-gray-600 mb-6">
-            Votre profil artiste #{artistId} est déjà enregistré sur la blockchain. Chaque wallet ne peut créer qu'un seul profil artiste.
+            Votre profil artiste #{artistId} est déjà enregistré sur la blockchain. Chaque wallet ne peut créer qu&lsquo;un seul profil artiste.
           </p>
           
           <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
@@ -185,10 +185,10 @@ export function CreateArtistForm() {
         )}
 
         <form onSubmit={handleSubmit} className="space-y-6">
-          {/* Nom de l'artiste */}
+          {/* Nom de &lsquo;artiste */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
-              Nom de l'artiste *
+              Nom de &lsquo;artiste *
             </label>
             <div className="relative">
               <User className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
@@ -199,7 +199,7 @@ export function CreateArtistForm() {
                 className={`w-full pl-10 pr-4 py-3 border rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent ${
                   errors.name ? 'border-red-300' : 'border-gray-300'
                 }`}
-                placeholder="Votre nom d'artiste"
+                placeholder="Votre nom &lsquo;artiste"
               />
             </div>
             {errors.name && <p className="text-red-600 text-sm mt-1">{errors.name}</p>}

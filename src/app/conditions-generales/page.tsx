@@ -16,7 +16,7 @@ export default function ConditionsGeneralesPage() {
             <div className="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-6">
               <FileText className="w-8 h-8 text-purple-600" />
             </div>
-            <h1 className="text-4xl font-bold text-gray-800 mb-4">Conditions Générales d'Utilisation</h1>
+            <h1 className="text-4xl font-bold text-gray-800 mb-4">Conditions Générales d&lsquo;Utilisation</h1>
             <p className="text-xl text-gray-600">
               Dernière mise à jour : {new Date().toLocaleDateString('fr-FR')}
             </p>
@@ -32,13 +32,13 @@ export default function ConditionsGeneralesPage() {
               </CardHeader>
               <CardContent className="space-y-4">
                 <p className="text-gray-700">
-                  Les présentes conditions générales d'utilisation (CGU) régissent l'utilisation de la plateforme 
-                  <strong> Tickethic</strong>, une application décentralisée (dApp) permettant la gestion d'événements 
+                  Les présentes conditions générales d&lsquo;utilisation (CGU) régissent l&lsquo;utilisation de la plateforme 
+                  <strong> Tickethic</strong>, une application décentralisée (dApp) permettant la gestion d&lsquo;événements 
                   et de billets sous forme de NFT (Non-Fungible Tokens) sur la blockchain Ethereum.
                 </p>
                 <p className="text-gray-700">
-                  L'utilisation de la plateforme Tickethic implique l'acceptation pleine et entière des présentes CGU. 
-                  Si vous n'acceptez pas ces conditions, veuillez ne pas utiliser notre service.
+                  L&lsquo;utilisation de la plateforme Tickethic implique l&lsquo;acceptation pleine et entière des présentes CGU. 
+                  Si vous n&lsquo;acceptez pas ces conditions, veuillez ne pas utiliser notre service.
                 </p>
               </CardContent>
             </Card>
@@ -54,7 +54,7 @@ export default function ConditionsGeneralesPage() {
                 <div className="space-y-3">
                   <div>
                     <strong>Plateforme Tickethic :</strong> Application décentralisée permettant la création, 
-                    la gestion et la vente de billets d'événements sous forme de NFT.
+                    la gestion et la vente de billets &lsquo;événements sous forme de NFT.
                   </div>
                   <div>
                     <strong>Utilisateur :</strong> Toute personne physique ou morale utilisant la plateforme.
@@ -81,7 +81,7 @@ export default function ConditionsGeneralesPage() {
                   Tickethic propose les fonctionnalités suivantes :
                 </p>
                 <ul className="list-disc list-inside space-y-2 text-gray-700">
-                  <li>Création et gestion d'événements par les organisateurs</li>
+                  <li>Création et gestion &lsquo;événements par les organisateurs</li>
                   <li>Émission de billets sous forme de NFT</li>
                   <li>Répartition automatique et transparente des revenus entre artistes et organisateurs</li>
                   <li>Gestion des profils artistes et organisateurs</li>
@@ -97,14 +97,14 @@ export default function ConditionsGeneralesPage() {
               <CardContent className="space-y-4">
                 <div className="space-y-4">
                   <div>
-                    <h4 className="font-semibold text-gray-800 mb-2">4.1 Conditions d'accès</h4>
+                    <h4 className="font-semibold text-gray-800 mb-2">4.1 Conditions d&lsquo;accès</h4>
                     <p className="text-gray-700">
-                      L'utilisation de Tickethic nécessite la connexion d'un wallet Web3 compatible 
-                      (MetaMask, WalletConnect, etc.) et l'acceptation des présentes CGU.
+                      L&lsquo;utilisation de Tickethic nécessite la connexion d&lsquo;un wallet Web3 compatible 
+                      (MetaMask, WalletConnect, etc.) et l&lsquo;acceptation des présentes CGU.
                     </p>
                   </div>
                   <div>
-                    <h4 className="font-semibold text-gray-800 mb-2">4.2 Obligations de l'utilisateur</h4>
+                    <h4 className="font-semibold text-gray-800 mb-2">4.2 Obligations de l&lsquo;utilisateur</h4>
                     <ul className="list-disc list-inside space-y-1 text-gray-700">
                       <li>Fournir des informations exactes et à jour</li>
                       <li>Respecter les lois et réglementations applicables</li>
@@ -127,7 +127,7 @@ export default function ConditionsGeneralesPage() {
                 </p>
                 <ul className="list-disc list-inside space-y-2 text-gray-700">
                   <li>Les transactions sont irréversibles une fois confirmées sur la blockchain</li>
-                  <li>Les frais de gas (frais de transaction) sont à la charge de l'utilisateur</li>
+                  <li>Les frais de gas (frais de transaction) sont à la charge de &lsquo;utilisateur</li>
                   <li>La plateforme ne peut être tenue responsable des dysfonctionnements de la blockchain</li>
                   <li>Les smart contracts sont open-source et auditable par tous</li>
                 </ul>
@@ -143,7 +143,7 @@ export default function ConditionsGeneralesPage() {
                   La répartition des revenus des billets est gérée automatiquement par les smart contracts :
                 </p>
                 <ul className="list-disc list-inside space-y-2 text-gray-700">
-                  <li>Les pourcentages sont définis lors de la création de l'événement</li>
+                  <li>Les pourcentages sont définis lors de la création de &lsquo;événement</li>
                   <li>La distribution est automatique et transparente</li>
                   <li>Aucun intermédiaire ne prélève de commission</li>
                   <li>Les artistes reçoivent leurs revenus directement sur leur wallet</li>
@@ -160,13 +160,13 @@ export default function ConditionsGeneralesPage() {
               </CardHeader>
               <CardContent className="space-y-4">
                 <p className="text-gray-700">
-                  Tickethic est fourni "en l'état" sans garantie d'aucune sorte. La plateforme ne peut être tenue responsable de :
+                  Tickethic est fourni &ldquo;en l&lsquo;état&ldquo; sans garantie d&lsquo;aucune sorte. La plateforme ne peut être tenue responsable de :
                 </p>
                 <ul className="list-disc list-inside space-y-2 text-gray-700">
                   <li>La perte de fonds due à une mauvaise utilisation du wallet</li>
                   <li>Les dysfonctionnements de la blockchain Ethereum</li>
                   <li>Les variations de prix des cryptomonnaies</li>
-                  <li>Les annulations d'événements par les organisateurs</li>
+                  <li>Les annulations d&lsquo;événements par les organisateurs</li>
                   <li>Les pertes dues à des attaques ou bugs des smart contracts</li>
                 </ul>
               </CardContent>
@@ -221,7 +221,7 @@ export default function ConditionsGeneralesPage() {
                 Contact et support
               </h3>
               <p className="text-purple-700 mb-4">
-                Pour toute question concernant ces conditions générales ou l'utilisation de la plateforme :
+                Pour toute question concernant ces conditions générales ou l&lsquo;utilisation de la plateforme :
               </p>
               <ul className="text-purple-700 space-y-2">
                 <li>• Discord : <a href="https://discord.gg/Sp92nBqX" target="_blank" rel="noopener noreferrer" className="underline">https://discord.gg/Sp92nBqX</a></li>

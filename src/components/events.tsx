@@ -72,7 +72,7 @@ export function Events() {
             <div className="text-6xl mb-4">🎫</div>
             <h3 className="text-xl font-semibold text-gray-900 mb-2">Aucun événement disponible</h3>
             <p className="text-gray-600 mb-6">
-              Il n'y a pas encore d'événements sur la plateforme.
+              Il n&lsquo;y a pas encore &lsquo;événements sur la plateforme.
             </p>
             <a href="/organizers" className="bg-purple-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-purple-700 transition">
               Créer le premier événement

@@ -21,14 +21,14 @@ export function CreateEventForm() {
   const { isOrganizer, isLoading: isLoadingStatus } = useOrganizerStatus(address)
   const { registerAsOrganizer, isLoading: isRegistering, isConfirmed: isRegistrationConfirmed } = useOrganizerRegistration()
   
-  // État local pour gérer l'affichage après enregistrement
+  // État local pour gérer &lsquo;affichage après enregistrement
   const [justRegistered, setJustRegistered] = useState(false)
   
-  // Détecter quand l'enregistrement est confirmé
+  // Détecter quand &lsquo;enregistrement est confirmé
   useEffect(() => {
     if (isRegistrationConfirmed) {
       setJustRegistered(true)
-      // Réinitialiser l'état après un délai pour permettre au hook de se mettre à jour
+      // Réinitialiser &lsquo;état après un délai pour permettre au hook de se mettre à jour
       setTimeout(() => {
         setJustRegistered(false)
       }, 2000)
@@ -144,7 +144,7 @@ export function CreateEventForm() {
       <div className="bg-white rounded-lg shadow-md p-8">
         <div className="text-center">
           <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-purple-600 mx-auto mb-4"></div>
-          <p className="text-gray-600">Vérification du statut d'organisateur...</p>
+          <p className="text-gray-600">Vérification du statut &lsquo;organisateur...</p>
         </div>
       </div>
     )
@@ -175,7 +175,7 @@ export function CreateEventForm() {
             ) : (
               <>
                 <UserPlus className="w-4 h-4 mr-2" />
-                S'enregistrer comme organisateur
+                S&lsquo;enregistrer comme organisateur
               </>
             )}
           </button>
@@ -237,7 +237,7 @@ export function CreateEventForm() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
-              Titre de l'événement *
+              Titre de &lsquo;événement *
             </label>
             <input
               type="text"
@@ -289,7 +289,7 @@ export function CreateEventForm() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
-              Date de l'événement *
+              Date de &lsquo;événement *
             </label>
             <div className="relative">
               <Calendar className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
@@ -307,7 +307,7 @@ export function CreateEventForm() {
           
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
-              Heure de l'événement *
+              Heure de &lsquo;événement *
             </label>
             <input
               type="time"
@@ -406,7 +406,7 @@ export function CreateEventForm() {
             <div className="mt-4 p-3 bg-blue-50 rounded-lg">
               <div className="text-sm text-blue-800">
                 <div>Part totale des artistes: {totalArtistShare}%</div>
-                <div>Part de l'organisateur: {organizerShare}%</div>
+                <div>Part de &lsquo;organisateur: {organizerShare}%</div>
                 {totalArtistShare > 100 && (
                   <div className="text-red-600 font-medium">
                     ⚠️ La part totale des artistes ne peut pas dépasser 100%
@@ -451,7 +451,7 @@ export function CreateEventForm() {
               <div className="mt-2 p-3 bg-white rounded border space-y-3">
                 {eventId && (
                   <div>
-                    <p className="text-sm font-medium text-gray-700 mb-1">ID de l'événement :</p>
+                    <p className="text-sm font-medium text-gray-700 mb-1">ID de &lsquo;événement :</p>
                     <p className="text-sm font-mono text-gray-600">
                       #{eventId.toString()}
                     </p>
@@ -459,7 +459,7 @@ export function CreateEventForm() {
                 )}
                 {eventAddress && (
                   <div>
-                    <p className="text-sm font-medium text-gray-700 mb-1">Adresse de l'événement :</p>
+                    <p className="text-sm font-medium text-gray-700 mb-1">Adresse de &lsquo;événement :</p>
                     <p className="text-xs font-mono text-gray-600 break-all">
                       {eventAddress}
                     </p>
@@ -467,7 +467,7 @@ export function CreateEventForm() {
                       onClick={() => navigator.clipboard.writeText(eventAddress)}
                       className="mt-2 text-xs text-purple-600 hover:text-purple-800 underline"
                     >
-                      📋 Copier l'adresse
+                      📋 Copier &lsquo;adresse
                     </button>
                   </div>
                 )}

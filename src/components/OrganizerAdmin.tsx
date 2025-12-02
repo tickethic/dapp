@@ -100,7 +100,7 @@ export function OrganizerAdmin() {
           </div>
           <h2 className="text-2xl font-bold text-gray-800 mb-2">Organisateur ajouté !</h2>
           <p className="text-gray-600 mb-6">
-            L'organisateur a été enregistré avec succès.
+            L&lsquo;organisateur a été enregistré avec succès.
           </p>
           <button 
             onClick={() => window.location.reload()}
@@ -210,7 +210,7 @@ export function OrganizerAdmin() {
               </h3>
               <p className="text-yellow-700 text-sm">
                 Seul le propriétaire du contrat peut ajouter de nouveaux organisateurs.
-                Contactez l'administrateur pour vous enregistrer.
+                Contactez &lsquo;administrateur pour vous enregistrer.
               </p>
             </div>
           </div>

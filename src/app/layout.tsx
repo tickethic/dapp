@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import ContextProvider from "@/context";
+import Script from 'next/script';
 
 export const metadata: Metadata = {
   title: "Tickethic - Plateforme événementielle pour organisateurs et artistes",
@@ -19,13 +20,14 @@ export default function RootLayout({
     <html lang="fr">
       <head>
         <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.net.min.js"></script>
-        <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
       </head>
       <body className="bg-gray-50">
         <ContextProvider>
           {children}
+          {/* Scripts chargés après le rendu */}
+          <Script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" strategy="beforeInteractive" />
+          <Script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.net.min.js" strategy="beforeInteractive" />
+          <Script src="https://unpkg.com/aos@2.3.1/dist/aos.js" strategy="afterInteractive" />
         </ContextProvider>
       </body>
     </html>

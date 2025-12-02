@@ -3,16 +3,19 @@
 import { useEffect } from 'react'
 import { Hero } from '@/components/hero'
 import { Navbar } from '@/components/navbar'
-import { Features } from '@/components/features'
 import { HowItWorks } from '@/components/how-it-works'
 import { Events } from '@/components/events'
 import { Testimonials } from '@/components/testimonials'
-import { CallToAction } from '@/components/call-to-action'
 import { Footer } from '@/components/footer'
 
 declare global {
   interface Window {
-    AOS: any
+    AOS: {
+      init: (options: {
+        duration?: number
+        once?: boolean
+      }) => void
+    }
   }
 }
 
@@ -31,11 +34,9 @@ export default function Home() {
     <div className="min-h-screen">
       <Hero />
       <Navbar />
-      {/* <Features /> */}
       <HowItWorks />
       <Events />
       <Testimonials />
-      {/* <CallToAction /> */}
       <Footer />
     </div>
   )

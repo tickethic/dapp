@@ -130,7 +130,7 @@ export function UserArtistProfile({ userArtist }: UserArtistProfileProps) {
           </li>
           <li className="flex items-center">
             <div className="w-2 h-2 bg-blue-600 rounded-full mr-3"></div>
-            Connectez-vous avec d'autres artistes et organisateurs
+            Connectez-vous avec &lsquo;autres artistes et organisateurs
           </li>
         </ul>
       </div>

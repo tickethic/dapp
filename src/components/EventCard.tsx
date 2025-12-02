@@ -52,30 +52,30 @@ export function EventCard({ eventId }: EventCardProps) {
               if (response.ok) {
                 const data = await response.json()
                 console.log(`EventCard ${eventId}: Received IPFS metadata:`, data)
-                setEventName(data.name || `Événement #${eventId}`)
+                setEventName(data.name || `Evenement #${eventId}`)
                 setEventDescription(data.description || '')
                 setEventImage(data.image || '')
                 setEventLocation(data.location || '')
                 return // Success, exit
               }
-          } catch (error) {
-            console.log(`EventCard ${eventId}: Gateway failed:`, ipfsUrl, error instanceof Error ? error.message : 'Unknown error')
+            } catch (error) {
+              console.log(`EventCard ${eventId}: Gateway failed:`, ipfsUrl, error instanceof Error ? error.message : 'Unknown error')
             }
           }
           
           // All gateways failed, try API fallback
-          console.log('EventCard ${eventId}: All IPFS gateways failed, trying API fallback')
+          console.log(`EventCard ${eventId}: All IPFS gateways failed, trying API fallback`)
           try {
             const response = await fetch(`/api/event-metadata?uri=${encodeURIComponent(metadataURI)}`)
             const data = await response.json()
             console.log(`EventCard ${eventId}: Received API metadata:`, data)
-            setEventName(data.name || `Événement #${eventId}`)
+            setEventName(data.name || `Evenement #${eventId}`)
             setEventDescription(data.description || '')
             setEventImage(data.image || '')
             setEventLocation(data.location || '')
           } catch (error) {
             console.error('Error fetching event metadata:', error)
-            setEventName(`Événement #${eventId}`)
+            setEventName(`Evenement #${eventId}`)
             setEventDescription('')
             setEventImage('')
             setEventLocation('')
@@ -91,14 +91,14 @@ export function EventCard({ eventId }: EventCardProps) {
           .then(response => response.json())
           .then(data => {
             console.log(`EventCard ${eventId}: Received metadata:`, data)
-            setEventName(data.name || `Événement #${eventId}`)
+            setEventName(data.name || `Evenement #${eventId}`)
             setEventDescription(data.description || '')
             setEventImage(data.image || '')
             setEventLocation(data.location || '')
           })
           .catch(error => {
             console.error('Error fetching event metadata:', error)
-            setEventName(`Événement #${eventId}`)
+            setEventName(`Evenement #${eventId}`)
             setEventDescription('')
             setEventImage('')
             setEventLocation('')
@@ -108,7 +108,7 @@ export function EventCard({ eventId }: EventCardProps) {
           })
       }
     } else {
-      setEventName(`Événement #${eventId}`)
+      setEventName(`Evenement #${eventId}`)
     }
   }, [metadataURI, eventId])
 
@@ -153,7 +153,7 @@ export function EventCard({ eventId }: EventCardProps) {
         <div className="h-48 bg-gray-200">
           <img 
             src={eventImage} 
-            alt={eventName || `Événement #${eventId}`}
+            alt={eventName || `Evenement #${eventId}`}
             className="w-full h-full object-cover"
             onError={(e) => {
               // Hide image if it fails to load
@@ -166,7 +166,7 @@ export function EventCard({ eventId }: EventCardProps) {
       <div className="p-6">
         {/* Event Title */}
         <h3 className="text-xl font-bold text-gray-800 mb-2">
-          {isLoadingMetadata ? 'Chargement...' : (eventName || `Événement #${eventId}`)}
+          {isLoadingMetadata ? 'Chargement...' : (eventName || `Evenement #${eventId}`)}
         </h3>
 
         {/* Event Description */}
@@ -176,129 +176,129 @@ export function EventCard({ eventId }: EventCardProps) {
           </p>
         )}
 
-      {/* Event Details */}
-      <div className="space-y-3 mb-4">
-        <div className="flex items-center text-gray-600">
-          <Calendar className="w-4 h-4 mr-2" />
-          <span>{eventDate.toLocaleDateString('fr-FR', { 
-            weekday: 'long', 
-            year: 'numeric', 
-            month: 'long', 
-            day: 'numeric' 
-          })}</span>
-        </div>
-
-        <div className="flex items-center text-gray-600">
-          <Clock className="w-4 h-4 mr-2" />
-          <span>{eventDate.toLocaleTimeString('fr-FR', { 
-            hour: '2-digit', 
-            minute: '2-digit' 
-          })}</span>
-        </div>
-
-        <div className="flex items-center text-gray-600">
-          <Users className="w-4 h-4 mr-2" />
-          <span>Organisateur: {formatAddress(organizer)}</span>
-        </div>
-
-        {eventLocation && (
+        {/* Event Details */}
+        <div className="space-y-3 mb-4">
           <div className="flex items-center text-gray-600">
-            <MapPin className="w-4 h-4 mr-2" />
-            <span>{eventLocation}</span>
+            <Calendar className="w-4 h-4 mr-2" />
+            <span>{eventDate.toLocaleDateString('fr-FR', { 
+              weekday: 'long', 
+              year: 'numeric', 
+              month: 'long', 
+              day: 'numeric' 
+            })}</span>
           </div>
-        )}
 
-        {artistIds && artistIds.length > 0 && (
           <div className="flex items-center text-gray-600">
-            <Ticket className="w-4 h-4 mr-2" />
-            <Tooltip
-              content={
-                <div className="space-y-1">
-                  <div className="font-semibold text-white mb-2">Artistes participants</div>
-                  {isLoadingArtists ? (
-                    <div className="text-gray-300">Chargement...</div>
-                  ) : artistDetails.length > 0 ? (
-                    artistDetails.map((artist, index) => (
-                      <div key={artist.id} className="flex justify-between items-center text-sm">
-                        <span className="text-white">{artist.name}</span>
-                        <span className="text-purple-300 font-medium">{artist.share}%</span>
-                      </div>
-                    ))
-                  ) : (
-                    <div className="text-gray-300">Aucun détail disponible</div>
-                  )}
-                </div>
-              }
-              position="top"
-            >
-              <span className="cursor-help hover:text-purple-600 transition-colors">
-                {artistIds.length} artiste{artistIds.length > 1 ? 's' : ''}
+            <Clock className="w-4 h-4 mr-2" />
+            <span>{eventDate.toLocaleTimeString('fr-FR', { 
+              hour: '2-digit', 
+              minute: '2-digit' 
+            })}</span>
+          </div>
+
+          <div className="flex items-center text-gray-600">
+            <Users className="w-4 h-4 mr-2" />
+            <span>Organisateur: {formatAddress(organizer)}</span>
+          </div>
+
+          {eventLocation && (
+            <div className="flex items-center text-gray-600">
+              <MapPin className="w-4 h-4 mr-2" />
+              <span>{eventLocation}</span>
+            </div>
+          )}
+
+          {artistIds && artistIds.length > 0 && (
+            <div className="flex items-center text-gray-600">
+              <Ticket className="w-4 h-4 mr-2" />
+              <Tooltip
+                content={
+                  <div className="space-y-1">
+                    <div className="font-semibold text-white mb-2">Artistes participants</div>
+                    {isLoadingArtists ? (
+                      <div className="text-gray-300">Chargement...</div>
+                    ) : artistDetails.length > 0 ? (
+                      artistDetails.map((artist, index) => (
+                        <div key={artist.id} className="flex justify-between items-center text-sm">
+                          <span className="text-white">{artist.name}</span>
+                          <span className="text-purple-300 font-medium">{artist.share}%</span>
+                        </div>
+                      ))
+                    ) : (
+                      <div className="text-gray-300">Aucun detail disponible</div>
+                    )}
+                  </div>
+                }
+                position="top"
+              >
+                <span className="cursor-help hover:text-purple-600 transition-colors">
+                  {artistIds.length} artiste{artistIds.length > 1 ? 's' : ''}
+                </span>
+              </Tooltip>
+            </div>
+          )}
+        </div>
+
+        {/* Ticket Info */}
+        <div className="flex justify-between items-center mb-4">
+          <div className="text-sm text-gray-500">
+            {soldTickets.toString()} / {totalTickets.toString()} billets vendus
+          </div>
+          <div className="text-lg font-bold text-purple-600">
+            {formattedPrice}
+          </div>
+        </div>
+
+        {/* Progress Bar */}
+        <div className="w-full bg-gray-200 rounded-full h-2 mb-4">
+          <div 
+            className="bg-purple-600 h-2 rounded-full transition-all duration-300"
+            style={{ 
+              width: `${totalTickets > 0 ? (Number(soldTickets) / Number(totalTickets)) * 100 : 0}%` 
+            }}
+          />
+        </div>
+
+        {/* Status and Actions */}
+        <div className="flex justify-between items-center">
+          <div className="flex space-x-2">
+            {isPastEvent && (
+              <span className="px-2 py-1 bg-gray-100 text-gray-600 text-xs rounded-full">
+                Termine
               </span>
-            </Tooltip>
+            )}
+            {isSoldOut && !isPastEvent && (
+              <span className="px-2 py-1 bg-red-100 text-red-600 text-xs rounded-full">
+                Complet
+              </span>
+            )}
+            {!isPastEvent && !isSoldOut && (
+              <span className="px-2 py-1 bg-green-100 text-green-600 text-xs rounded-full">
+                Disponible
+              </span>
+            )}
           </div>
-        )}
-      </div>
 
-      {/* Ticket Info */}
-      <div className="flex justify-between items-center mb-4">
-        <div className="text-sm text-gray-500">
-          {soldTickets.toString()} / {totalTickets.toString()} billets vendus
-        </div>
-        <div className="text-lg font-bold text-purple-600">
-          {formattedPrice}
-        </div>
-      </div>
-
-      {/* Progress Bar */}
-      <div className="w-full bg-gray-200 rounded-full h-2 mb-4">
-        <div 
-          className="bg-purple-600 h-2 rounded-full transition-all duration-300"
-          style={{ 
-            width: `${totalTickets > 0 ? (Number(soldTickets) / Number(totalTickets)) * 100 : 0}%` 
-          }}
-        ></div>
-      </div>
-
-      {/* Status and Actions */}
-      <div className="flex justify-between items-center">
-        <div className="flex space-x-2">
-          {isPastEvent && (
-            <span className="px-2 py-1 bg-gray-100 text-gray-600 text-xs rounded-full">
-              Terminé
-            </span>
-          )}
-          {isSoldOut && !isPastEvent && (
-            <span className="px-2 py-1 bg-red-100 text-red-600 text-xs rounded-full">
-              Complet
-            </span>
-          )}
           {!isPastEvent && !isSoldOut && (
-            <span className="px-2 py-1 bg-green-100 text-green-600 text-xs rounded-full">
-              Disponible
-            </span>
+            <button 
+              onClick={() => router.push(`/checkout/${eventId}`)}
+              className="bg-purple-600 text-white px-4 py-2 rounded-md hover:bg-purple-700 transition"
+            >
+              Acheter un billet
+            </button>
           )}
         </div>
 
-        {!isPastEvent && !isSoldOut && (
-          <button 
-            onClick={() => router.push(`/checkout/${eventId}`)}
-            className="bg-purple-600 text-white px-4 py-2 rounded-md hover:bg-purple-700 transition"
-          >
-            Acheter un billet
-          </button>
-        )}
-      </div>
-
-      {/* Metadata URI if available */}
-      {metadataURI && (
-        <div className="px-6 pb-6">
-          <div className="pt-4 border-t border-gray-200">
-            <p className="text-xs text-gray-500">
-              Métadonnées: {metadataURI}
-            </p>
+        {/* Metadata URI if available */}
+        {metadataURI && (
+          <div className="px-6 pb-6">
+            <div className="pt-4 border-t border-gray-200">
+              <p className="text-xs text-gray-500">
+                Metadonnees: {metadataURI}
+              </p>
+            </div>
           </div>
-        </div>
-      )}
+        )}
       </div>
     </div>
   )

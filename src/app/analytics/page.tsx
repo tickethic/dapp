@@ -180,7 +180,7 @@ export default function AnalyticsPage() {
               <Ticket className="h-12 w-12 text-gray-400 mx-auto mb-4" />
               <h3 className="text-lg font-semibold text-gray-900 mb-2">Aucun événement trouvé</h3>
               <p className="text-gray-600 mb-4">
-                Il n'y a pas encore d'événements sur la plateforme.
+                Il n&lsquo;y a pas encore d&lsquo;événements sur la plateforme.
               </p>
               <Button asChild>
                 <a href="/organizers">Créer un événement</a>

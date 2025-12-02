@@ -75,7 +75,7 @@ export function OwnerArtistForm() {
           </h2>
           
           <p className="text-gray-600 mb-6">
-            L'artiste "{formData.artistName}" a été créé et le NFT a été transféré à votre adresse.
+            L&lsquo;artiste &ldquo;{formData.artistName}&ldquo; a été créé et le NFT a été transféré à votre adresse.
           </p>
           
           {hash && (
@@ -127,10 +127,10 @@ export function OwnerArtistForm() {
         )}
 
         <form onSubmit={handleSubmit} className="space-y-6">
-          {/* Nom de l'artiste */}
+          {/* Nom de &lsquo;artiste */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
-              Nom de l'artiste *
+              Nom de &lsquo;artiste *
             </label>
             <div className="relative">
               <User className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
@@ -141,7 +141,7 @@ export function OwnerArtistForm() {
                 className={`w-full pl-10 pr-4 py-3 border rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent ${
                   errors.artistName ? 'border-red-300' : 'border-gray-300'
                 }`}
-                placeholder="Nom de l'artiste"
+                placeholder="Nom de &lsquo;artiste"
               />
             </div>
             {errors.artistName && <p className="text-red-600 text-sm mt-1">{errors.artistName}</p>}
@@ -166,7 +166,7 @@ export function OwnerArtistForm() {
             </div>
             {errors.metadataURI && <p className="text-red-600 text-sm mt-1">{errors.metadataURI}</p>}
             <p className="text-gray-500 text-sm mt-1">
-              URI vers les métadonnées JSON de l'artiste (IPFS ou HTTPS)
+              URI vers les métadonnées JSON de &lsquo;artiste (IPFS ou HTTPS)
             </p>
           </div>
 

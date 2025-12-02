@@ -83,7 +83,7 @@ export function OrganizerRegistration() {
           Enregistrement Organisateur
         </h2>
         <p className="text-gray-600">
-          Vous devez d'abord vous enregistrer comme organisateur pour créer des événements.
+          Vous devez &lsquo;abord vous enregistrer comme organisateur pour créer des événements.
         </p>
       </div>
 
@@ -92,13 +92,13 @@ export function OrganizerRegistration() {
           <AlertCircle className="w-5 h-5 text-yellow-600 mt-0.5 mr-3 flex-shrink-0" />
           <div>
             <h3 className="text-lg font-semibold text-yellow-800 mb-2">
-              ⚠️ Problème d'enregistrement
+              ⚠️ Problème &lsquo;enregistrement
             </h3>
             <p className="text-yellow-700 text-sm mb-2">
               Pour créer des événements, vous devez être enregistré comme organisateur dans le contrat blockchain.
             </p>
             <p className="text-yellow-700 text-sm">
-              <strong>Solution :</strong> Contactez l'administrateur du contrat pour vous enregistrer, ou utilisez le wallet du déployeur du contrat.
+              <strong>Solution :</strong> Contactez &lsquo;administrateur du contrat pour vous enregistrer, ou utilisez le wallet du déployeur du contrat.
             </p>
           </div>
         </div>
@@ -109,11 +109,11 @@ export function OrganizerRegistration() {
           <AlertCircle className="w-5 h-5 text-blue-600 mt-0.5 mr-3 flex-shrink-0" />
           <div>
             <h3 className="text-lg font-semibold text-blue-800 mb-2">
-              Pourquoi s'enregistrer ?
+              Pourquoi &lsquo;enregistrer ?
             </h3>
             <ul className="text-blue-700 space-y-1 text-sm">
               <li>• Permet de créer et gérer des événements</li>
-              <li>• Accès aux fonctionnalités d'organisation</li>
+              <li>• Accès aux fonctionnalités &lsquo;organisation</li>
               <li>• Suivi des statistiques de vos événements</li>
               <li>• Gestion des revenus et paiements</li>
             </ul>

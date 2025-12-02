@@ -122,7 +122,7 @@ export async function GET(request: NextRequest) {
           .map(word => word.charAt(0).toUpperCase() + word.slice(1))
           .join(' ')
         
-        eventDescription = extractedDescription || `Rejoignez-nous pour ${eventName.toLowerCase()}, un événement musical exceptionnel avec des artistes talentueux. Venez profiter d'une soirée inoubliable dans une ambiance unique.`
+        eventDescription = extractedDescription || `Rejoignez-nous pour ${eventName.toLowerCase()}, un événement musical exceptionnel avec des artistes talentueux. Venez profiter &lsquo;une soirée inoubliable dans une ambiance unique.`
       } else if (metadataURI.startsWith('ipfs://event-')) {
         // Handle old format ipfs://event-timestamp
         const eventSlug = metadataURI.replace('ipfs://event-', '')

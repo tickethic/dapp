@@ -19,7 +19,7 @@ export function useIsContractOwner() {
   const { address } = useWallet()
   
   const { data: contractOwner, isLoading } = useReadContract({
-    address: contractAddresses.EventManager, // ← Vérifie le EventManager au lieu de l'Artist
+    address: contractAddresses.EventManager, // ← Vérifie le EventManager au lieu de &lsquo;Artist
     abi: EVENT_MANAGER_ABI,
     functionName: 'owner',
   })

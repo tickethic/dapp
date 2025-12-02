@@ -1,25 +1,48 @@
 'use client'
 
 import { useEffect, useRef } from 'react'
+import Link from 'next/link'
 import { Button } from '@/components/ui/button'
+
+// Types pour Vanta et THREE
+interface VantaEffect {
+  destroy: () => void
+}
+
+interface VantaNETOptions {
+  el: HTMLElement
+  mouseControls: boolean
+  touchControls: boolean
+  gyroControls: boolean
+  minHeight: number
+  minWidth: number
+  scale: number
+  scaleMobile: number
+  color: number
+  backgroundColor: number
+  points: number
+  maxDistance: number
+  spacing: number
+}
 
 declare global {
   interface Window {
-    VANTA: any
-    THREE: any
+    VANTA?: {
+      NET: (options: VantaNETOptions) => VantaEffect
+    }
+    THREE?: unknown
   }
 }
 
 export function Hero() {
   const vantaRef = useRef<HTMLDivElement>(null)
+  const effectRef = useRef<VantaEffect | null>(null)
 
   useEffect(() => {
-    let effect: any = null
-
     const initVanta = () => {
-      if (typeof window !== 'undefined' && window.VANTA && window.THREE && vantaRef.current) {
+      if (typeof window !== 'undefined' && window.VANTA?.NET && window.THREE && vantaRef.current) {
         try {
-          effect = window.VANTA.NET({
+          effectRef.current = window.VANTA.NET({
             el: vantaRef.current,
             mouseControls: true,
             touchControls: true,
@@ -44,14 +67,14 @@ export function Hero() {
     initVanta()
 
     // If not loaded, try again after a delay
-    if (!effect) {
+    if (!effectRef.current) {
       const timer = setTimeout(initVanta, 1000)
       return () => clearTimeout(timer)
     }
 
     return () => {
-      if (effect && effect.destroy) {
-        effect.destroy()
+      if (effectRef.current?.destroy) {
+        effectRef.current.destroy()
       }
     }
   }, [])
@@ -62,18 +85,22 @@ export function Hero() {
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 md:py-32">
         <div className="text-center" data-aos="fade-up">
           <h1 className="text-4xl md:text-6xl font-bold mb-6">
-            L'événementiel <span className="text-yellow-300">éthique</span> et <span className="text-yellow-300">décentralisé</span>
+            Levenementiel <span className="text-yellow-300">ethique</span> et <span className="text-yellow-300">decentralise</span>
           </h1>
           <p className="text-xl md:text-2xl max-w-3xl mx-auto mb-10">
             Une plateforme Web3 qui garantit des paiements directs aux artistes et une transparence totale.
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-4">
-            <a href="/organizers" className="btn-primary px-8 py-4 rounded-full font-semibold text-white">
-              Créer un événement
-            </a>
-            <a href="/events" className="bg-white text-purple-700 px-8 py-4 rounded-full font-semibold hover:bg-gray-100 transition">
-              Découvrir les événements
-            </a>
+            <Button asChild>
+              <Link href="/organizers" className="px-8 py-4 rounded-full font-semibold text-white">
+                Creer un evenement
+              </Link>
+            </Button>
+            <Button asChild variant="outline">
+              <Link href="/events" className="px-8 py-4 rounded-full font-semibold">
+                Decouvrir les evenements
+              </Link>
+            </Button>
           </div>
         </div>
       </div>

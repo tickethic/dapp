@@ -112,7 +112,7 @@ export default function ArtistPaymentsPage() {
                 <div>
                   <h4 className="font-semibold">Instantané</h4>
                   <p className="text-sm text-gray-600">
-                    Pas d'attente, paiement immédiat
+                    Pas d&lsquo;attente, paiement immédiat
                   </p>
                 </div>
               </div>
@@ -175,7 +175,7 @@ export default function ArtistPaymentsPage() {
                   <div>
                     <h4 className="font-semibold">Paiements directs</h4>
                     <p className="text-sm text-gray-600">
-                      Pas d'intermédiaire, vous recevez directement vos revenus
+                      Pas d&lsquo;intermédiaire, vous recevez directement vos revenus
                     </p>
                   </div>
                 </div>
@@ -195,7 +195,7 @@ export default function ArtistPaymentsPage() {
                   <div>
                     <h4 className="font-semibold">Pas de frais cachés</h4>
                     <p className="text-sm text-gray-600">
-                      Seuls les frais de gas Ethereum s'appliquent
+                      Seuls les frais de gas Ethereum s&lsquo;appliquent
                     </p>
                   </div>
                 </div>
@@ -205,7 +205,7 @@ export default function ArtistPaymentsPage() {
                   <div>
                     <h4 className="font-semibold">Contrôle total</h4>
                     <p className="text-sm text-gray-600">
-                      Vous négociez directement vos pourcentages avec l'organisateur
+                      Vous négociez directement vos pourcentages avec l&lsquo;organisateur
                     </p>
                   </div>
                 </div>

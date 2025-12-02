@@ -128,7 +128,7 @@ export default function CheckoutPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="text-center">
             <h1 className="text-2xl font-bold text-gray-800 mb-4">Événement non trouvé</h1>
-            <p className="text-gray-600 mb-8">L'événement que vous recherchez n'existe pas.</p>
+            <p className="text-gray-600 mb-8">L&lsquo;événement que vous recherchez &lsquo;existe pas.</p>
             <button
               onClick={() => router.push('/events')}
               className="bg-purple-600 text-white px-6 py-2 rounded-lg hover:bg-purple-700 transition"
@@ -213,7 +213,7 @@ export default function CheckoutPage() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Event Summary */}
           <div className="bg-white rounded-lg shadow-md p-6">
-            <h2 className="text-xl font-bold text-gray-800 mb-4">Résumé de l'événement</h2>
+            <h2 className="text-xl font-bold text-gray-800 mb-4">Résumé de &lsquo;événement</h2>
             
             {/* Event Image */}
             {eventImage && (

@@ -101,7 +101,7 @@ export function AdminAddArtistForm() {
           </h2>
           
           <p className="text-gray-600 mb-6">
-            L'artiste a été créé avec succès sur la blockchain.
+            L&lsquo;artiste a été créé avec succès sur la blockchain.
           </p>
           
           {hash && (
@@ -143,7 +143,7 @@ export function AdminAddArtistForm() {
             Fonctionnalité Admin
           </h3>
           <p className="text-blue-700 text-sm">
-            En tant que propriétaire du contrat, vous pouvez créer des profils artistes pour d'autres utilisateurs.
+            En tant que propriétaire du contrat, vous pouvez créer des profils artistes pour &lsquo;autres utilisateurs.
           </p>
         </div>
 
@@ -155,10 +155,10 @@ export function AdminAddArtistForm() {
         )}
 
         <form onSubmit={handleSubmit} className="space-y-6">
-          {/* Nom de l'artiste */}
+          {/* Nom de &lsquo;artiste */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
-              Nom de l'artiste *
+              Nom de &lsquo;artiste *
             </label>
             <div className="relative">
               <User className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
@@ -167,7 +167,7 @@ export function AdminAddArtistForm() {
                 value={formData.artistName}
                 onChange={(e) => handleInputChange('artistName', e.target.value)}
                 className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-                placeholder="Nom de l'artiste"
+                placeholder="Nom de &lsquo;artiste"
               />
             </div>
           </div>

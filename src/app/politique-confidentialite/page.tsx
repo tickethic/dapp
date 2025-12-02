@@ -33,11 +33,11 @@ export default function PolitiqueConfidentialitePage() {
               <CardContent className="space-y-4">
                 <p className="text-gray-700">
                   Cette politique de confidentialité décrit comment <strong>Tickethic</strong> collecte, 
-                  utilise et protège vos informations personnelles dans le cadre de l'utilisation de notre 
-                  plateforme décentralisée de gestion d'événements.
+                  utilise et protège vos informations personnelles dans le cadre de &lsquo;utilisation de notre 
+                  plateforme décentralisée de gestion &lsquo;événements.
                 </p>
                 <p className="text-gray-700">
-                  En tant qu'application décentralisée (dApp), Tickethic s'engage à respecter votre vie privée 
+                  En tant qu&lsquo;application décentralisée (dApp), Tickethic &lsquo;engage à respecter votre vie privée 
                   tout en exploitant les avantages de la technologie blockchain pour garantir transparence et sécurité.
                 </p>
               </CardContent>
@@ -55,7 +55,7 @@ export default function PolitiqueConfidentialitePage() {
                   <div>
                     <h4 className="font-semibold text-gray-800 mb-2">2.1 Informations de wallet</h4>
                     <p className="text-gray-700">
-                      Nous collectons uniquement l'adresse de votre wallet Ethereum, nécessaire pour :
+                      Nous collectons uniquement &lsquo;adresse de votre wallet Ethereum, nécessaire pour :
                     </p>
                     <ul className="list-disc list-inside space-y-1 text-gray-700 ml-4">
                       <li>Identifier votre profil sur la plateforme</li>
@@ -65,9 +65,9 @@ export default function PolitiqueConfidentialitePage() {
                   </div>
                   
                   <div>
-                    <h4 className="font-semibold text-gray-800 mb-2">2.2 Informations d'événement</h4>
+                    <h4 className="font-semibold text-gray-800 mb-2">2.2 Informations &lsquo;événement</h4>
                     <p className="text-gray-700">
-                      Les données d'événements créés sur la plateforme (nom, description, dates, prix) 
+                      Les données &lsquo;événements créés sur la plateforme (nom, description, dates, prix) 
                       sont stockées de manière décentralisée et transparente.
                     </p>
                   </div>
@@ -99,7 +99,7 @@ export default function PolitiqueConfidentialitePage() {
                   <li>Exécuter les smart contracts et transactions blockchain</li>
                   <li>Distribuer automatiquement les revenus aux artistes</li>
                   <li>Maintenir la transparence des événements et transactions</li>
-                  <li>Améliorer l'expérience utilisateur de la plateforme</li>
+                  <li>Améliorer &lsquo;expérience utilisateur de la plateforme</li>
                 </ul>
                 <p className="text-gray-700">
                   <strong>Nous ne vendons, ne louons, ni ne partageons vos données personnelles avec des tiers.</strong>
@@ -148,11 +148,11 @@ export default function PolitiqueConfidentialitePage() {
                   Conformément au RGPD, vous disposez des droits suivants :
                 </p>
                 <ul className="list-disc list-inside space-y-2 text-gray-700">
-                  <li><strong>Droit d'accès :</strong> Consulter vos données stockées sur la blockchain</li>
+                  <li><strong>Droit &lsquo;accès :</strong> Consulter vos données stockées sur la blockchain</li>
                   <li><strong>Droit de rectification :</strong> Modifier vos informations de profil</li>
-                  <li><strong>Droit à l'effacement :</strong> Supprimer votre profil (sous réserve des contraintes blockchain)</li>
+                  <li><strong>Droit à &lsquo;effacement :</strong> Supprimer votre profil (sous réserve des contraintes blockchain)</li>
                   <li><strong>Droit à la portabilité :</strong> Exporter vos données NFT</li>
-                  <li><strong>Droit d'opposition :</strong> Cesser d'utiliser la plateforme</li>
+                  <li><strong>Droit &lsquo;opposition :</strong> Cesser &lsquo;utiliser la plateforme</li>
                 </ul>
                 <p className="text-gray-700">
                   <strong>Note :</strong> Certaines données blockchain ne peuvent être modifiées ou supprimées 
@@ -171,11 +171,11 @@ export default function PolitiqueConfidentialitePage() {
                 </p>
                 <ul className="list-disc list-inside space-y-2 text-gray-700">
                   <li>Maintenir votre session de connexion wallet</li>
-                  <li>Améliorer les performances de l'interface</li>
-                  <li>Mémoriser vos préférences d'affichage</li>
+                  <li>Améliorer les performances de &lsquo;interface</li>
+                  <li>Mémoriser vos préférences &lsquo;affichage</li>
                 </ul>
                 <p className="text-gray-700">
-                  Nous n'utilisons pas de cookies de tracking publicitaire ou de profilage.
+                  Nous &lsquo;utilisons pas de cookies de tracking publicitaire ou de profilage.
                 </p>
               </CardContent>
             </Card>
@@ -186,15 +186,15 @@ export default function PolitiqueConfidentialitePage() {
               </CardHeader>
               <CardContent className="space-y-4">
                 <p className="text-gray-700">
-                  Tickethic ne partage vos données qu'avec :
+                  Tickethic ne partage vos données qu&lsquo;avec :
                 </p>
                 <ul className="list-disc list-inside space-y-2 text-gray-700">
-                  <li><strong>Réseau Ethereum :</strong> Pour l'exécution des smart contracts</li>
+                  <li><strong>Réseau Ethereum :</strong> Pour &lsquo;exécution des smart contracts</li>
                   <li><strong>Fournisseurs de wallets :</strong> Pour la connexion (MetaMask, WalletConnect, etc.)</li>
-                  <li><strong>Services d'infrastructure :</strong> Pour l'hébergement de l'interface (sans accès aux données blockchain)</li>
+                  <li><strong>Services &lsquo;infrastructure :</strong> Pour &lsquo;hébergement de &lsquo;interface (sans accès aux données blockchain)</li>
                 </ul>
                 <p className="text-gray-700">
-                  Aucun partage commercial ou publicitaire n'est effectué.
+                  Aucun partage commercial ou publicitaire &lsquo;est effectué.
                 </p>
               </CardContent>
             </Card>
@@ -208,7 +208,7 @@ export default function PolitiqueConfidentialitePage() {
               </CardHeader>
               <CardContent className="space-y-4">
                 <p className="text-gray-700">
-                  L'utilisation de Tickethic implique des risques liés à la technologie blockchain :
+                  L&lsquo;utilisation de Tickethic implique des risques liés à la technologie blockchain :
                 </p>
                 <ul className="list-disc list-inside space-y-2 text-gray-700">
                   <li>Les transactions blockchain sont publiques et traçables</li>
@@ -258,7 +258,7 @@ export default function PolitiqueConfidentialitePage() {
                 Engagement Tickethic
               </h3>
               <p className="text-blue-700">
-                Tickethic s'engage à maintenir la transparence et la décentralisation au cœur de ses valeurs. 
+                Tickethic &lsquo;engage à maintenir la transparence et la décentralisation au cœur de ses valeurs. 
                 Cette politique reflète notre philosophie open-source et notre respect de la vie privée des utilisateurs.
               </p>
             </div>
