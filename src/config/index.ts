@@ -14,7 +14,6 @@ export const networks = [polygonAmoy] as [AppKitNetwork, ...AppKitNetwork[]]
 export const appKitConfig = {
   projectId,
   networks,
-  // Configuration pour éviter &lsquo;erreur "Invalid App Configuration"
   metadata: {
     name: 'Tickethic',
     description: 'Tickethic - Plateforme de tickets NFT',
@@ -23,12 +22,12 @@ export const appKitConfig = {
   }
 }
 
-//Set up the Wagmi Adapter (Config)
+// Set up the Wagmi Adapter (Config) — retirez `metadata` ici car il n'est pas supporté
 export const wagmiAdapter = new WagmiAdapter({
   ssr: true,
   projectId,
   networks,
-  metadata: appKitConfig.metadata
+  // metadata: appKitConfig.metadata // <-- A priori wagmi ne prend pas en charge de metadata?
 })
 
 export const config = wagmiAdapter.wagmiConfig

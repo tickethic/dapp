@@ -7,29 +7,29 @@ import { useState, useEffect } from 'react'
 // Artist ABI
 const ARTIST_ABI = [
   {
-    "inputs": [],
-    "name": "nextArtistId",
-    "outputs": [{"internalType": "uint256", "name": "", "type": "uint256"}],
-    "stateMutability": "view",
-    "type": "function"
+    inputs: [],
+    name: 'nextArtistId',
+    outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
+    stateMutability: 'view',
+    type: 'function',
   },
   {
-    "inputs": [{"internalType": "uint256", "name": "artistId", "type": "uint256"}],
-    "name": "getArtistInfo",
-    "outputs": [
-      {"internalType": "string", "name": "name", "type": "string"},
-      {"internalType": "string", "name": "metadataURI", "type": "string"}
+    inputs: [{ internalType: 'uint256', name: 'artistId', type: 'uint256' }],
+    name: 'getArtistInfo',
+    outputs: [
+      { internalType: 'string', name: 'name', type: 'string' },
+      { internalType: 'string', name: 'metadataURI', type: 'string' },
     ],
-    "stateMutability": "view",
-    "type": "function"
+    stateMutability: 'view',
+    type: 'function',
   },
   {
-    "inputs": [{"internalType": "uint256", "name": "tokenId", "type": "uint256"}],
-    "name": "ownerOf",
-    "outputs": [{"internalType": "address", "name": "", "type": "address"}],
-    "stateMutability": "view",
-    "type": "function"
-  }
+    inputs: [{ internalType: 'uint256', name: 'tokenId', type: 'uint256' }],
+    name: 'ownerOf',
+    outputs: [{ internalType: 'address', name: '', type: 'address' }],
+    stateMutability: 'view',
+    type: 'function',
+  },
 ] as const
 
 export interface ArtistInfo {
@@ -49,13 +49,13 @@ export function useTotalArtists() {
 
   return {
     totalArtists: nextArtistId ? Number(nextArtistId) - 1 : 0,
-    isLoading
+    isLoading,
   }
 }
 
 // Hook to get info for a specific artist
 export function useArtistInfo(artistId: number) {
-  const { data: artistData, isLoading, error } = useReadContract({
+  const { data: artistDataRaw, isLoading, error } = useReadContract({
     address: contractAddresses.Artist,
     abi: ARTIST_ABI,
     functionName: 'getArtistInfo',
@@ -65,7 +65,7 @@ export function useArtistInfo(artistId: number) {
     },
   })
 
-  const { data: owner, isLoading: isLoadingOwner } = useReadContract({
+  const { data: ownerRaw, isLoading: isLoadingOwner } = useReadContract({
     address: contractAddresses.Artist,
     abi: ARTIST_ABI,
     functionName: 'ownerOf',
@@ -75,21 +75,25 @@ export function useArtistInfo(artistId: number) {
     },
   })
 
-  const artistInfo: ArtistInfo | undefined = artistData ? {
-    id: artistId,
-    name: artistData[0],
-    metadataURI: artistData[1],
-    owner: owner || '0x...'
-  } : undefined
+  // Vérifier que artistDataRaw est un tableau avec au moins 2 éléments (name, metadataURI)
+  const artistInfo: ArtistInfo | undefined =
+    Array.isArray(artistDataRaw) && artistDataRaw.length >= 2 && typeof ownerRaw === 'string'
+      ? {
+          id: artistId,
+          name: artistDataRaw[0] as string,
+          metadataURI: artistDataRaw[1] as string,
+          owner: ownerRaw,
+        }
+      : undefined
 
   return {
     artistInfo,
     isLoading: isLoading || isLoadingOwner,
-    error
+    error,
   }
 }
 
-// Hook to get all artists (this will be expensive for many artists)
+// Hook to get all artists (expensive for many artists)
 export function useAllArtists() {
   const { totalArtists, isLoading: isLoadingTotal } = useTotalArtists()
   const [allArtists, setAllArtists] = useState<ArtistInfo[]>([])
@@ -100,44 +104,37 @@ export function useAllArtists() {
     if (totalArtists > 0) {
       setIsLoading(true)
       setError(null)
-      
-      // Fetch all artists info from the real contract
+
       const fetchAllArtists = async () => {
         const artists: ArtistInfo[] = []
-        
         for (let i = 1; i <= totalArtists; i++) {
           try {
-            // For now, we'll use a simple approach
-            // In a production app, you might want to batch these calls or use a different strategy
-            const response = await fetch('/api/artist/' + i) // You'd need to create this API endpoint
+            const response = await fetch('/api/artist/' + i)
             if (response.ok) {
               const artistData = await response.json()
               artists.push(artistData)
             } else {
-              // Fallback to placeholder if API fails
               artists.push({
                 id: i,
                 name: `Artiste #${i}`,
                 metadataURI: `ipfs://artist-${i}`,
-                owner: '0x...'
+                owner: '0x...',
               })
             }
-          } catch (error) {
-            console.error(`Error fetching artist ${i}:`, error)
-            // Add placeholder for failed fetch
+          } catch (err) {
+            console.error(`Error fetching artist ${i}:`, err)
             artists.push({
               id: i,
               name: `Artiste #${i}`,
               metadataURI: `ipfs://artist-${i}`,
-              owner: '0x...'
+              owner: '0x...',
             })
           }
         }
-        
         setAllArtists(artists)
         setIsLoading(false)
       }
-      
+
       fetchAllArtists()
     }
   }, [totalArtists])
@@ -146,6 +143,6 @@ export function useAllArtists() {
     allArtists,
     isLoading: isLoading || isLoadingTotal,
     totalArtists,
-    error
+    error,
   }
 }

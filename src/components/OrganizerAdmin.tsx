@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import Link from 'next/link'
 import { useWallet } from '@/hooks/useWallet'
 import { useWriteContract, useWaitForTransactionReceipt, useReadContract } from 'wagmi'
 import { contractAddresses } from '@/config'
@@ -59,7 +60,14 @@ export function OrganizerAdmin() {
     }
   })
 
-  const isOwner = owner && address && owner.toLowerCase() === address.toLowerCase()
+  const isOwner = owner && address && 
+    typeof owner === 'string' && typeof address === 'string' && 
+    owner.toLowerCase() === address.toLowerCase()
+
+  const formatAddress = (addr: unknown): string => {
+    if (typeof addr !== 'string') return 'Chargement...'
+    return `${addr.slice(0, 6)}...${addr.slice(-4)}`
+  }
 
   const handleAddOrganizer = async () => {
     if (!newOrganizerAddress || !isOwner) return
@@ -98,16 +106,16 @@ export function OrganizerAdmin() {
           <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
             <CheckCircle className="w-8 h-8 text-green-600" />
           </div>
-          <h2 className="text-2xl font-bold text-gray-800 mb-2">Organisateur ajouté !</h2>
+          <h2 className="text-2xl font-bold text-gray-800 mb-2">Organisateur ajoute !</h2>
           <p className="text-gray-600 mb-6">
-            L&lsquo;organisateur a été enregistré avec succès.
+            L organisateur a ete enregistre avec succes.
           </p>
-          <button 
-            onClick={() => window.location.reload()}
-            className="bg-purple-600 text-white px-6 py-2 rounded-lg hover:bg-purple-700 transition"
+          <Link 
+            href="/admin"
+            className="bg-purple-600 text-white px-6 py-2 rounded-lg hover:bg-purple-700 transition inline-block"
           >
             Continuer
-          </button>
+          </Link>
         </div>
       </div>
     )
@@ -123,16 +131,16 @@ export function OrganizerAdmin() {
           Administration des Organisateurs
         </h2>
         <p className="text-gray-600">
-          Gestion des organisateurs enregistrés
+          Gestion des organisateurs enregistres
         </p>
       </div>
 
       {/* Status Information */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
         <div className="bg-gray-50 rounded-lg p-4">
-          <h3 className="font-semibold text-gray-800 mb-2">Propriétaire du contrat</h3>
+          <h3 className="font-semibold text-gray-800 mb-2">Proprietaire du contrat</h3>
           <p className="text-sm font-mono text-gray-600 break-all">
-            {owner ? `${owner.slice(0, 6)}...${owner.slice(-4)}` : 'Chargement...'}
+            {formatAddress(owner)}
           </p>
         </div>
         
@@ -140,11 +148,11 @@ export function OrganizerAdmin() {
           <h3 className="font-semibold text-gray-800 mb-2">Votre statut</h3>
           <div className="flex items-center space-x-2">
             {isCurrentUserOrganizer ? (
-              <span className="text-green-600 text-sm">✅ Organisateur enregistré</span>
+              <span className="text-green-600 text-sm">✅ Organisateur enregistre</span>
             ) : (
-              <span className="text-red-600 text-sm">❌ Non enregistré</span>
+              <span className="text-red-600 text-sm">❌ Non enregistre</span>
             )}
-            {isOwner && <span className="text-blue-600 text-sm">👑 Propriétaire</span>}
+            {isOwner && <span className="text-blue-600 text-sm">👑 Proprietaire</span>}
           </div>
         </div>
       </div>
@@ -156,7 +164,7 @@ export function OrganizerAdmin() {
             <AlertCircle className="w-5 h-5 text-blue-600 mt-0.5 mr-3 flex-shrink-0" />
             <div>
               <h3 className="text-lg font-semibold text-blue-800 mb-2">
-                Vous êtes le propriétaire du contrat
+                Vous etes le proprietaire du contrat
               </h3>
               <p className="text-blue-700 text-sm mb-4">
                 Vous pouvez vous enregistrer comme organisateur.
@@ -168,7 +176,7 @@ export function OrganizerAdmin() {
               >
                 {isPending ? 'Enregistrement...' : 
                  isConfirming ? 'Confirmation...' : 
-                 'M\'enregistrer comme organisateur'}
+                 'M enregistrer comme organisateur'}
               </button>
             </div>
           </div>
@@ -206,11 +214,11 @@ export function OrganizerAdmin() {
             <AlertCircle className="w-5 h-5 text-yellow-600 mt-0.5 mr-3 flex-shrink-0" />
             <div>
               <h3 className="text-lg font-semibold text-yellow-800 mb-2">
-                Accès limité
+                Acces limite
               </h3>
               <p className="text-yellow-700 text-sm">
-                Seul le propriétaire du contrat peut ajouter de nouveaux organisateurs.
-                Contactez &lsquo;administrateur pour vous enregistrer.
+                Seul le proprietaire du contrat peut ajouter de nouveaux organisateurs.
+                Contactez l administrateur pour vous enregistrer.
               </p>
             </div>
           </div>
@@ -221,7 +229,7 @@ export function OrganizerAdmin() {
       {error && (
         <div className="p-4 bg-red-50 border border-red-200 rounded-lg mt-6">
           <p className="text-red-800 text-sm">
-            Erreur: {error.message}
+            Erreur: {error.message || 'Erreur inconnue'}
           </p>
         </div>
       )}
@@ -229,10 +237,10 @@ export function OrganizerAdmin() {
       {hash && (
         <div className="mt-4 p-3 bg-green-50 border border-green-200 rounded-lg">
           <p className="text-green-800 text-sm mb-2">
-            ✅ Transaction envoyée ! En attente de confirmation...
+            ✅ Transaction envoyee ! En attente de confirmation...
           </p>
           <p className="text-xs font-mono text-green-600 break-all">
-            Hash: {hash}
+            Hash: {hash as string}
           </p>
         </div>
       )}

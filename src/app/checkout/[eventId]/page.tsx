@@ -8,17 +8,39 @@ import { CheckoutForm } from '@/components/CheckoutForm'
 import { EventArtistsList } from '@/components/EventArtistsList'
 import { Navbar } from '@/components/navbar'
 import { Footer } from '@/components/footer'
-import { Calendar, MapPin, Users, Ticket, Clock, ArrowLeft } from 'lucide-react'
+import Link from 'next/link'
+import { Calendar, MapPin, Users, Clock, ArrowLeft } from 'lucide-react'
+
+// Types pour eventInfo
+interface EventInfo {
+  eventAddress: string
+  organizer: string
+  date: bigint
+  ticketPrice: bigint
+  totalTickets: bigint
+  soldTickets: bigint
+}
 
 export default function CheckoutPage() {
   const params = useParams()
   const router = useRouter()
   const { address, isConnected } = useWallet()
   const eventId = Number(params.eventId)
-  
+
   const { eventInfo, isLoading } = useEventInfo(eventId)
-  const { metadataURI, artistIds, artistShares } = useEventMetadata(eventInfo?.[0] || '')
-  
+
+  const safeEventAddress : string = (() => {
+    if (!eventInfo || typeof eventInfo !== 'object') return ''
+    const info = eventInfo as Partial<EventInfo>
+    return info.eventAddress || ''
+  })()
+
+  const {
+    metadataURI = '',
+    artistIds = [],
+    artistShares = []
+  } = useEventMetadata(safeEventAddress ) ?? {}
+
   const [eventName, setEventName] = useState<string>('')
   const [eventDescription, setEventDescription] = useState<string>('')
   const [eventImage, setEventImage] = useState<string>('')
@@ -34,9 +56,9 @@ export default function CheckoutPage() {
 
   // Fetch event metadata
   useEffect(() => {
-    if (metadataURI && metadataURI !== '') {
+    if (typeof metadataURI === 'string' && metadataURI !== '') {
       setIsLoadingMetadata(true)
-      
+
       if (metadataURI.startsWith('ipfs://')) {
         const ipfsHash = metadataURI.replace('ipfs://', '')
         const ipfsGateways = [
@@ -45,7 +67,7 @@ export default function CheckoutPage() {
           `https://ipfs.fleek.co/ipfs/${ipfsHash}`,
           `https://gateway.originprotocol.com/ipfs/${ipfsHash}`
         ]
-        
+
         const tryGateways = async () => {
           for (const ipfsUrl of ipfsGateways) {
             try {
@@ -56,14 +78,14 @@ export default function CheckoutPage() {
                 setEventDescription(data.description || '')
                 setEventImage(data.image || '')
                 setEventLocation(data.location || '')
-                return
+                return // Success, exit
               }
-            } catch (error) {
-              console.log(`Gateway failed:`, ipfsUrl)
+            } catch {
+              // ignore and try next gateway
             }
           }
-          
-          // Fallback to API
+
+          // fallback to API
           try {
             const response = await fetch(`/api/event-metadata?uri=${encodeURIComponent(metadataURI)}`)
             const data = await response.json()
@@ -71,31 +93,31 @@ export default function CheckoutPage() {
             setEventDescription(data.description || '')
             setEventImage(data.image || '')
             setEventLocation(data.location || '')
-          } catch (error) {
-            console.error('Error fetching event metadata:', error)
+          } catch {
             setEventName(`Événement #${eventId}`)
+            setEventDescription('')
+            setEventImage('')
+            setEventLocation('')
           }
         }
-        
-        tryGateways().finally(() => {
-          setIsLoadingMetadata(false)
-        })
+
+        tryGateways().finally(() => setIsLoadingMetadata(false))
       } else {
         fetch(`/api/event-metadata?uri=${encodeURIComponent(metadataURI)}`)
-          .then(response => response.json())
+          .then(res => res.json())
           .then(data => {
             setEventName(data.name || `Événement #${eventId}`)
             setEventDescription(data.description || '')
             setEventImage(data.image || '')
             setEventLocation(data.location || '')
           })
-          .catch(error => {
-            console.error('Error fetching event metadata:', error)
+          .catch(() => {
             setEventName(`Événement #${eventId}`)
+            setEventDescription('')
+            setEventImage('')
+            setEventLocation('')
           })
-          .finally(() => {
-            setIsLoadingMetadata(false)
-          })
+          .finally(() => setIsLoadingMetadata(false))
       }
     } else {
       setEventName(`Événement #${eventId}`)
@@ -128,13 +150,13 @@ export default function CheckoutPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="text-center">
             <h1 className="text-2xl font-bold text-gray-800 mb-4">Événement non trouvé</h1>
-            <p className="text-gray-600 mb-8">L&lsquo;événement que vous recherchez &lsquo;existe pas.</p>
-            <button
-              onClick={() => router.push('/events')}
-              className="bg-purple-600 text-white px-6 py-2 rounded-lg hover:bg-purple-700 transition"
+            <p className="text-gray-600 mb-8">L'événement que vous recherchez n'existe pas.</p>
+            <Link
+              href="/events"
+              className="bg-purple-600 text-white px-6 py-2 rounded-lg hover:bg-purple-700 transition inline-block"
             >
               Retour aux événements
-            </button>
+            </Link>
           </div>
         </div>
         <Footer />
@@ -142,60 +164,18 @@ export default function CheckoutPage() {
     )
   }
 
-  const [eventAddress, organizer, date, ticketPrice, totalTickets, soldTickets] = eventInfo
+  // On cast pour garantir tpyage correct des bigint
+  const { eventAddress, organizer, date, ticketPrice, totalTickets, soldTickets } = eventInfo as EventInfo
   const eventDate = new Date(Number(date) * 1000)
   const isPastEvent = eventDate < new Date()
   const isSoldOut = soldTickets >= totalTickets
   const priceInEth = Number(ticketPrice) / 1e18
   const formattedPrice = priceInEth > 0 ? `${priceInEth.toFixed(4)} ETH` : 'Gratuit'
 
-  // Check if event is available for purchase
-  if (isPastEvent) {
-    return (
-      <div className="min-h-screen bg-gray-50">
-        <Navbar />
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <div className="text-center">
-            <h1 className="text-2xl font-bold text-gray-800 mb-4">Événement terminé</h1>
-            <p className="text-gray-600 mb-8">Cet événement a déjà eu lieu.</p>
-            <button
-              onClick={() => router.push('/events')}
-              className="bg-purple-600 text-white px-6 py-2 rounded-lg hover:bg-purple-700 transition"
-            >
-              Retour aux événements
-            </button>
-          </div>
-        </div>
-        <Footer />
-      </div>
-    )
-  }
-
-  if (isSoldOut) {
-    return (
-      <div className="min-h-screen bg-gray-50">
-        <Navbar />
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <div className="text-center">
-            <h1 className="text-2xl font-bold text-gray-800 mb-4">Événement complet</h1>
-            <p className="text-gray-600 mb-8">Tous les billets ont été vendus pour cet événement.</p>
-            <button
-              onClick={() => router.push('/events')}
-              className="bg-purple-600 text-white px-6 py-2 rounded-lg hover:bg-purple-700 transition"
-            >
-              Retour aux événements
-            </button>
-          </div>
-        </div>
-        <Footer />
-      </div>
-    )
-  }
-
   return (
     <div className="min-h-screen bg-gray-50">
       <Navbar />
-      
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header */}
         <div className="mb-8">
@@ -213,13 +193,13 @@ export default function CheckoutPage() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Event Summary */}
           <div className="bg-white rounded-lg shadow-md p-6">
-            <h2 className="text-xl font-bold text-gray-800 mb-4">Résumé de &lsquo;événement</h2>
-            
+            <h2 className="text-xl font-bold text-gray-800 mb-4">Résumé de l'événement</h2>
+
             {/* Event Image */}
             {eventImage && (
               <div className="h-48 bg-gray-200 rounded-lg mb-4 overflow-hidden">
-                <img 
-                  src={eventImage} 
+                <img
+                  src={eventImage}
                   alt={eventName}
                   className="w-full h-full object-cover"
                   onError={(e) => {
@@ -231,33 +211,31 @@ export default function CheckoutPage() {
 
             {/* Event Details */}
             <div className="space-y-3">
-              <h3 className="text-lg font-semibold text-gray-800">
-                {isLoadingMetadata ? 'Chargement...' : eventName}
-              </h3>
-              
-              {eventDescription && (
-                <p className="text-gray-600 text-sm">
-                  {eventDescription}
-                </p>
-              )}
+              <h3 className="text-lg font-semibold text-gray-800">{isLoadingMetadata ? 'Chargement...' : eventName}</h3>
+
+              {eventDescription && <p className="text-gray-600 text-sm">{eventDescription}</p>}
 
               <div className="space-y-2">
                 <div className="flex items-center text-gray-600">
                   <Calendar className="w-4 h-4 mr-2" />
-                  <span>{eventDate.toLocaleDateString('fr-FR', { 
-                    weekday: 'long', 
-                    year: 'numeric', 
-                    month: 'long', 
-                    day: 'numeric' 
-                  })}</span>
+                  <span>
+                    {eventDate.toLocaleDateString('fr-FR', {
+                      weekday: 'long',
+                      year: 'numeric',
+                      month: 'long',
+                      day: 'numeric',
+                    })}
+                  </span>
                 </div>
 
                 <div className="flex items-center text-gray-600">
                   <Clock className="w-4 h-4 mr-2" />
-                  <span>{eventDate.toLocaleTimeString('fr-FR', { 
-                    hour: '2-digit', 
-                    minute: '2-digit' 
-                  })}</span>
+                  <span>
+                    {eventDate.toLocaleTimeString('fr-FR', {
+                      hour: '2-digit',
+                      minute: '2-digit',
+                    })}
+                  </span>
                 </div>
 
                 {eventLocation && (
@@ -269,7 +247,9 @@ export default function CheckoutPage() {
 
                 <div className="flex items-center text-gray-600">
                   <Users className="w-4 h-4 mr-2" />
-                  <span>Organisateur: {organizer.slice(0, 6)}...{organizer.slice(-4)}</span>
+                  <span>
+                    Organisateur: {organizer.slice(0, 6)}...{organizer.slice(-4)}
+                  </span>
                 </div>
               </div>
 
@@ -293,12 +273,7 @@ export default function CheckoutPage() {
 
           {/* Checkout Form */}
           <div className="bg-white rounded-lg shadow-md p-6">
-            <CheckoutForm 
-              eventId={eventId}
-              eventAddress={eventAddress}
-              ticketPrice={ticketPrice}
-              eventName={eventName}
-            />
+            <CheckoutForm eventId={eventId} eventAddress={eventAddress} ticketPrice={ticketPrice} eventName={eventName} />
           </div>
         </div>
       </div>
@@ -307,3 +282,4 @@ export default function CheckoutPage() {
     </div>
   )
 }
+

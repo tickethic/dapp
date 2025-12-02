@@ -7,6 +7,16 @@ import { Tooltip } from './Tooltip'
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 
+// Types pour eventInfo
+interface EventInfo {
+  eventAddress: string
+  organizer: string
+  date: bigint
+  ticketPrice: bigint
+  totalTickets: bigint
+  soldTickets: bigint
+}
+
 interface EventCardProps {
   eventId: number
 }
@@ -14,22 +24,23 @@ interface EventCardProps {
 export function EventCard({ eventId }: EventCardProps) {
   const router = useRouter()
   const { eventInfo, isLoading } = useEventInfo(eventId)
-  const { metadataURI, artistIds, artistShares } = useEventMetadata(eventInfo?.[0] || '')
+  const eventAddress = eventInfo?.eventAddress || ''
+  const { metadataURI, artistIds, artistShares } = useEventMetadata(eventAddress)
+  
   const [eventName, setEventName] = useState<string>('')
   const [eventDescription, setEventDescription] = useState<string>('')
   const [eventImage, setEventImage] = useState<string>('')
   const [eventLocation, setEventLocation] = useState<string>('')
   const [isLoadingMetadata, setIsLoadingMetadata] = useState(false)
   
-  // Get artist details for tooltip
-  const { artistDetails, isLoading: isLoadingArtists } = useArtistDetails(
-    artistIds ? artistIds.map(id => Number(id)) : [], 
-    artistShares ? artistShares.map(share => Number(share)) : []
-  )
+  // Get artist details for tooltip - safe arrays
+  const safeArtistIds = Array.isArray(artistIds) ? artistIds.map(id => Number(id)) : []
+  const safeArtistShares = Array.isArray(artistShares) ? artistShares.map(share => Number(share)) : []
+  const { artistDetails, isLoading: isLoadingArtists } = useArtistDetails(safeArtistIds, safeArtistShares)
 
   // Fetch event metadata when metadataURI is available
   useEffect(() => {
-    if (metadataURI && metadataURI !== '') {
+    if (metadataURI && typeof metadataURI === 'string' && metadataURI !== '') {
       console.log(`EventCard ${eventId}: Fetching metadata for URI:`, metadataURI)
       setIsLoadingMetadata(true)
       
@@ -52,10 +63,10 @@ export function EventCard({ eventId }: EventCardProps) {
               if (response.ok) {
                 const data = await response.json()
                 console.log(`EventCard ${eventId}: Received IPFS metadata:`, data)
-                setEventName(data.name || `Evenement #${eventId}`)
-                setEventDescription(data.description || '')
-                setEventImage(data.image || '')
-                setEventLocation(data.location || '')
+                setEventName((data as any)?.name || `Evenement #${eventId}`)
+                setEventDescription((data as any)?.description || '')
+                setEventImage((data as any)?.image || '')
+                setEventLocation((data as any)?.location || '')
                 return // Success, exit
               }
             } catch (error) {
@@ -69,10 +80,10 @@ export function EventCard({ eventId }: EventCardProps) {
             const response = await fetch(`/api/event-metadata?uri=${encodeURIComponent(metadataURI)}`)
             const data = await response.json()
             console.log(`EventCard ${eventId}: Received API metadata:`, data)
-            setEventName(data.name || `Evenement #${eventId}`)
-            setEventDescription(data.description || '')
-            setEventImage(data.image || '')
-            setEventLocation(data.location || '')
+            setEventName((data as any)?.name || `Evenement #${eventId}`)
+            setEventDescription((data as any)?.description || '')
+            setEventImage((data as any)?.image || '')
+            setEventLocation((data as any)?.location || '')
           } catch (error) {
             console.error('Error fetching event metadata:', error)
             setEventName(`Evenement #${eventId}`)
@@ -91,10 +102,10 @@ export function EventCard({ eventId }: EventCardProps) {
           .then(response => response.json())
           .then(data => {
             console.log(`EventCard ${eventId}: Received metadata:`, data)
-            setEventName(data.name || `Evenement #${eventId}`)
-            setEventDescription(data.description || '')
-            setEventImage(data.image || '')
-            setEventLocation(data.location || '')
+            setEventName((data as any)?.name || `Evenement #${eventId}`)
+            setEventDescription((data as any)?.description || '')
+            setEventImage((data as any)?.image || '')
+            setEventLocation((data as any)?.location || '')
           })
           .catch(error => {
             console.error('Error fetching event metadata:', error)
@@ -130,12 +141,12 @@ export function EventCard({ eventId }: EventCardProps) {
     return null
   }
 
-  const [eventAddress, organizer, date, ticketPrice, totalTickets, soldTickets] = eventInfo
+  const { eventAddress, organizer, date, ticketPrice, totalTickets, soldTickets } = eventInfo as EventInfo
 
   // Format date
   const eventDate = new Date(Number(date) * 1000)
   const isPastEvent = eventDate < new Date()
-  const isSoldOut = soldTickets >= totalTickets
+  const isSoldOut = Number(soldTickets) >= Number(totalTickets)
 
   // Format price (assuming price is in wei)
   const priceInEth = Number(ticketPrice) / 1e18
@@ -208,7 +219,7 @@ export function EventCard({ eventId }: EventCardProps) {
             </div>
           )}
 
-          {artistIds && artistIds.length > 0 && (
+          {Array.isArray(artistIds) && artistIds.length > 0 && (
             <div className="flex items-center text-gray-600">
               <Ticket className="w-4 h-4 mr-2" />
               <Tooltip
@@ -254,7 +265,7 @@ export function EventCard({ eventId }: EventCardProps) {
           <div 
             className="bg-purple-600 h-2 rounded-full transition-all duration-300"
             style={{ 
-              width: `${totalTickets > 0 ? (Number(soldTickets) / Number(totalTickets)) * 100 : 0}%` 
+              width: `${Number(totalTickets) > 0 ? (Number(soldTickets) / Number(totalTickets)) * 100 : 0}%` 
             }}
           />
         </div>
@@ -290,7 +301,7 @@ export function EventCard({ eventId }: EventCardProps) {
         </div>
 
         {/* Metadata URI if available */}
-        {metadataURI && (
+        {typeof metadataURI === 'string' && metadataURI && (
           <div className="px-6 pb-6">
             <div className="pt-4 border-t border-gray-200">
               <p className="text-xs text-gray-500">

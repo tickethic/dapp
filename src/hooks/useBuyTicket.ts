@@ -36,11 +36,17 @@ export function useBuyTicket() {
     hash,
   })
 
+  // Déclarez explicitement le typage de log
+  type Log = {
+    topics: string[]
+    data: string
+  }
+
   // Extract ticket ID from transaction receipt
-  const ticketId = receipt?.logs?.find(log => {
+  const ticketId = receipt?.logs?.find((log: Log) => {
     try {
-      // Look for TicketPurchased event
-      return log.topics[0] === '0x...' // Event signature for TicketPurchased
+      // Look for TicketPurchased event (remplacez '0x...' par le vrai event signature)
+      return log.topics[0] === '0x...' 
     } catch {
       return false
     }
@@ -65,8 +71,8 @@ export function useBuyTicket() {
         abi: EVENT_ABI,
         functionName: 'buyTicket',
         args: [BigInt(params.quantity)],
-        value: params.ticketPrice, // Send total ETH as payment
-        gas: 1500000n, // Much higher gas limit for multiple transfers
+        value: params.ticketPrice * BigInt(params.quantity), // Envoyer le total ETH en paiement
+        gasLimit: 1500000, // Remplacez 1500000n (BigInt) par un nombre (number) pour compatibilité ES5
       })
     } catch (err) {
       console.error('Error buying ticket:', err)

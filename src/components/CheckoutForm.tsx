@@ -5,7 +5,21 @@ import { useRouter } from 'next/navigation'
 import { useWallet } from '@/hooks/useWallet'
 import { useBuyTicket } from '@/hooks/useBuyTicket'
 import { useEventStatus } from '@/hooks/useEventStatus'
+import Link from 'next/link'
 import { CreditCard, CheckCircle, Shield, AlertCircle } from 'lucide-react'
+
+// Types pour useEventStatus
+interface EventStatus {
+  date?: bigint
+  ticketPrice?: bigint
+  totalTickets?: bigint
+  soldTickets?: bigint
+  organizer?: string
+  isLoading: boolean
+  hasError: boolean
+  isEventValid: boolean
+  validationError?: string
+}
 
 interface CheckoutFormProps {
   eventId: number
@@ -28,15 +42,18 @@ export function CheckoutForm({ eventId, eventAddress, ticketPrice, eventName }: 
     hasError: hasContractError,
     isEventValid, 
     validationError 
-  } = useEventStatus(eventAddress)
+  } = useEventStatus(eventAddress) as EventStatus
 
   const [agreedToTerms, setAgreedToTerms] = useState(false)
   const [quantity, setQuantity] = useState(1)
 
-  // Calculate total price
-  const totalPrice = contractTicketPrice ? contractTicketPrice * BigInt(quantity) : 0n
-  const totalPriceETH = contractTicketPrice ? (Number(contractTicketPrice) / 1e18) * quantity : 0
-  const remainingTickets = totalTickets && soldTickets ? Number(totalTickets) - Number(soldTickets) : 0
+  // Calculate total price - safe Number conversion
+  const safeContractPrice = contractTicketPrice ? Number(contractTicketPrice) : 0
+  const totalPriceETH = safeContractPrice / 1e18 * quantity
+  const totalPriceWei = BigInt(Math.floor(safeContractPrice * quantity * 1e18))
+  const safeTotalTickets = totalTickets ? Number(totalTickets) : 0
+  const safeSoldTickets = soldTickets ? Number(soldTickets) : 0
+  const remainingTickets = safeTotalTickets - safeSoldTickets
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -71,7 +88,7 @@ export function CheckoutForm({ eventId, eventAddress, ticketPrice, eventName }: 
     console.log('Ticket Price from props (ETH):', (Number(ticketPrice) / 1e18).toString())
     console.log('Contract Ticket Price (wei):', contractTicketPrice?.toString() || 'Loading...')
     console.log('Contract Ticket Price (ETH):', contractTicketPrice ? (Number(contractTicketPrice) / 1e18).toString() : 'Loading...')
-    console.log('Total Price (wei):', totalPrice.toString())
+    console.log('Total Price (wei):', totalPriceWei.toString())
     console.log('Total Price (ETH):', totalPriceETH.toString())
     console.log('User Address:', address)
     console.log('Event Valid:', isEventValid)
@@ -85,19 +102,13 @@ export function CheckoutForm({ eventId, eventAddress, ticketPrice, eventName }: 
     console.log('Has Contract Error:', hasContractError)
     console.log('========================')
 
-    // Use total price for the selected quantity
-    const finalTicketPrice = totalPrice
-    
-    console.log('Using total price (wei):', finalTicketPrice.toString())
-    console.log('Using total price (ETH):', totalPriceETH.toString())
-
     try {
       await buyTicket({
         eventAddress,
-        ticketPrice: finalTicketPrice,
+        ticketPrice: totalPriceWei,
         quantity: quantity,
         buyerInfo: {
-          walletAddress: address
+          walletAddress: address!
         }
       })
     } catch (error) {
@@ -138,18 +149,18 @@ export function CheckoutForm({ eventId, eventAddress, ticketPrice, eventName }: 
         )}
 
         <div className="space-y-3">
-          <button
-            onClick={() => router.push('/events')}
-            className="w-full bg-purple-600 text-white py-3 px-6 rounded-lg hover:bg-purple-700 transition font-semibold"
+          <Link
+            href="/events"
+            className="w-full bg-purple-600 text-white py-3 px-6 rounded-lg hover:bg-purple-700 transition font-semibold block text-center"
           >
             Retour aux evenements
-          </button>
-          <button
-            onClick={() => router.push('/profile')}
-            className="w-full bg-gray-600 text-white py-3 px-6 rounded-lg hover:bg-gray-700 transition font-semibold"
+          </Link>
+          <Link
+            href="/profile"
+            className="w-full bg-gray-600 text-white py-3 px-6 rounded-lg hover:bg-gray-700 transition font-semibold block text-center"
           >
             Voir mes billets
-          </button>
+          </Link>
         </div>
       </div>
     )
@@ -193,7 +204,7 @@ export function CheckoutForm({ eventId, eventAddress, ticketPrice, eventName }: 
         <div className="mt-3 text-sm text-gray-600">
           <div className="flex justify-between">
             <span>Prix unitaire :</span>
-            <span>{contractTicketPrice ? (Number(contractTicketPrice) / 1e18).toFixed(4) : '0.0000'} ETH</span>
+            <span>{safeContractPrice / 1e18 > 0 ? (safeContractPrice / 1e18).toFixed(4) : '0.0000'} ETH</span>
           </div>
           <div className="flex justify-between font-semibold text-lg">
             <span>Total :</span>
@@ -249,10 +260,10 @@ export function CheckoutForm({ eventId, eventAddress, ticketPrice, eventName }: 
             <span className="font-medium text-green-800">Evenement disponible</span>
           </div>
           <div className="text-sm text-green-700 space-y-1">
-            <p>Prix: {contractTicketPrice ? (Number(contractTicketPrice) / 1e18).toFixed(4) : '...'} ETH</p>
-            <p>Billets: {soldTickets?.toString() || '...'} / {totalTickets?.toString() || '...'}</p>
+            <p>Prix: {safeContractPrice / 1e18 > 0 ? (safeContractPrice / 1e18).toFixed(4) : '...'} ETH</p>
+            <p>Billets: {safeSoldTickets} / {safeTotalTickets}</p>
             <p>Date: {date ? new Date(Number(date) * 1000).toLocaleString('fr-FR') : '...'}</p>
-            <p>Organisateur: {organizer ? `${organizer.slice(0, 6)}...${organizer.slice(-4)}` : '...'}</p>
+            <p>Organisateur: {organizer ? `${(organizer as string).slice(0, 6)}...${(organizer as string).slice(-4)}` : '...'}</p>
           </div>
         </div>
       )}
@@ -268,24 +279,24 @@ export function CheckoutForm({ eventId, eventAddress, ticketPrice, eventName }: 
             className="mt-1 h-4 w-4 text-purple-600 focus:ring-purple-500 border-gray-300 rounded"
           />
           <label htmlFor="terms" className="text-sm text-gray-600">
-            J&lsquo;accepte les{' '}
-            <a 
+            J accepte les{' '}
+            <Link 
               href="/conditions-generales" 
               target="_blank" 
               rel="noopener noreferrer"
               className="text-purple-600 hover:text-purple-800 underline"
             >
               conditions generales
-            </a>{' '}
+            </Link>{' '}
             et la{' '}
-            <a 
+            <Link 
               href="/politique-confidentialite" 
               target="_blank" 
               rel="noopener noreferrer"
               className="text-purple-600 hover:text-purple-800 underline"
             >
               politique de confidentialite
-            </a>
+            </Link>
           </label>
         </div>
 
