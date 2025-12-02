@@ -27,11 +27,16 @@ jobs:
         
     - name: Install dependencies
       working-directory: ./
-      run: npm ci
-      
+      run: |
+        if [ -f package-lock.json ]; then
+          npm ci --no-audit --no-fund
+        else
+          npm install --no-audit --no-fund
+        fi
+
     - name: Run ESLint
       working-directory: ./
-      run: npx eslint .
+      run: npm run lint
       
     - name: Type check
       working-directory: ./
