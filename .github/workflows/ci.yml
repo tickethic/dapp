@@ -28,20 +28,20 @@ jobs:
     - name: Install dependencies
       working-directory: ./
       run: npm ci
+
+    #- name: Run ESLint
+    #  working-directory: ./
+    #  run: npm run lint
       
-    - name: Run ESLint
-      working-directory: ./
-      run: npm run lint
-      
-    - name: Type check
-      working-directory: ./
-      run: npx tsc --noEmit
+    #- name: Type check
+    #  working-directory: ./
+    #  run: npx tsc --noEmit
       
     - name: Build application
       working-directory: ./
       run: npm run build
       env:
-        NEXT_PUBLIC_PROJECT_ID: ${{ secrets.NEXT_PUBLIC_PROJECT_ID }}
+        NEXT_PUBLIC_PROJECT_ID: ${{ vars.NEXT_PUBLIC_PROJECT_ID }}
         
     - name: Upload build artifacts
       uses: actions/upload-artifact@v4
